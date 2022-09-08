@@ -1,0 +1,47 @@
+<p>Super Admin page</p>
+<a class="nav-link" routerLink="/create">Create user</a>
+<button type="button" class="btn btn-primary btn-block mb-4" (click)="getUsers()">List Users</button>
+<button type="button" class="btn btn-primary btn-block mb-4" (click)="showGC()">show Group</button>
+<button type="button" class="btn btn-primary btn-block mb-4" (click)="createGroup()">Creat group</button>
+
+  <ul>
+    <li *ngFor="let item of userList; let k = index" [attr.data-index]="k">
+      <p>Group: {{item.group}}</p>
+      <button type="button" class="btn btn-primary btn-block mb-4" (click)="delGroup(item.group)">Delete group</button>
+      <button type="button" class="btn btn-primary btn-block mb-4" (click)="createChannel(item.group)">Creat Channel</button>
+        <ul>
+          <li *ngFor="let item1 of item.channel let j = index" [attr.data-index]="j">
+            <p>Channel: {{item1.nameChannel}}</p>
+            <button type="button" class="btn btn-primary btn-block mb-4" (click)="delChannel(item.group, item1.nameChannel)">Delete Channel</button>
+
+            <ul>
+              Users:
+              <li *ngFor="let item2 of item1.users let j = index" [attr.data-index]="j">
+                {{item2.username}}
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+  </ul>
+<br>
+<br>
+<ul>
+  <li *ngFor="let item of userList; let i = index" [attr.data-index]="i">
+    Username: {{item.username}}<br>
+    Email: {{item.email}}<br>
+    Role: {{item.role}}<br>
+      <input hidden type="text" id="form2Example1" class="form-control" [(ngModel)]="item.username" name="username"/>
+      <label class="form-label" for="form2Example1">Role:</label>
+      <select name="role" id="form2Example1" class="form-control" [(ngModel)]="item.newRole" multiple>
+        <option value="Super Admin">Super Admin</option>
+        <option value="Group Admin">Admin</option>
+        <option value="Group Assis">Assistant</option>
+        <option value="member">Member</option>
+      </select>
+      <button type="button" class="btn btn-primary btn-block mb-4" (click)="upgradeUsers(item.username, item.newRole)">Upgrade user</button>
+      <button type="button" class="btn btn-primary btn-block mb-4" (click)="removeUsers(item.username)">Remove user</button>
+    </li>
+</ul>
+<br>
+

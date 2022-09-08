@@ -1,0 +1,65 @@
+<form>
+  <!-- Username input -->
+  <div class="form-outline mb-4">
+    <input type="text" id="form2Example1" class="form-control" [(ngModel)]="user.username" name="username"/>
+    <label class="form-label" for="form2Example1">Username</label>
+  </div>
+
+  <!-- Password input -->
+  <div class="form-outline mb-4">
+    <input type="password" id="form2Example2" class="form-control" [(ngModel)]="user.password" name="password"/>
+    <label class="form-label" for="form2Example2">Password</label>
+  </div>
+
+
+  <!-- Submit button -->
+  <button type="button" class="btn btn-primary btn-block mb-4" (click)="logIn()">Sign in</button>
+</form>
+
+
+
+
+<br>
+
+  <ul>
+    <li *ngFor="let item of userList; let k = index" [attr.data-index]="k">
+      <p>Group: {{item.group}}</p>
+      <button type="button" class="btn btn-primary btn-block mb-4" (click)="delGroup(item.group)">Delete group</button>
+      <button type="button" class="btn btn-primary btn-block mb-4" (click)="createChannel(item.group)">Creat Channel</button>
+        <ul>
+          <li *ngFor="let item1 of item.channel let j = index" [attr.data-index]="j">
+            <p>Channel: {{item1.nameChannel}}</p>
+            <button type="button" class="btn btn-primary btn-block mb-4" (click)="delChannel(item.group, item1.nameChannel)">Delete channel</button>
+
+            <ul>
+              Users:
+              <li *ngFor="let item2 of item1.users let j = index" [attr.data-index]="j">
+                {{item2.username}}
+              </li>
+            </ul>
+          </li>
+        </ul>
+
+      </li>
+  </ul>
+
+  <br>
+
+
+
+<br>
+<ul>
+  <li *ngFor="let item of userList; let i = index" [attr.data-index]="i">
+      {{item.username}}, {{item.email}}, {{item.password}}, {{item.id}}, {{item.role}}
+      <input hidden type="text" id="form2Example1" class="form-control" [(ngModel)]="item.username" name="username"/>
+      <label class="form-label" for="form2Example1">Role:</label>
+      <select name="role" id="form2Example1" class="form-control" [(ngModel)]="item.role" multiple>
+        <option value="Super Admin">Super Admin</option>
+        <option value="Group Admin">Admin</option>
+        <option value="Group Assis">Assistant</option>
+        <option value="member">Member</option>
+      </select>
+      </li>
+</ul>
+<br>
+

@@ -1,0 +1,36 @@
+<form>
+  <!-- Username input -->
+  <div class="form-outline mb-4">
+    <input type="text" id="form2Example1" class="form-control" [(ngModel)]="user.username" name="username"/>
+    <label class="form-label" for="form2Example1">Username</label>
+  </div>
+
+  <!-- Password input -->
+  <div class="form-outline mb-4">
+    <input type="password" id="form2Example2" class="form-control" [(ngModel)]="user.password" name="password"/>
+    <label class="form-label" for="form2Example2">Password</label>
+  </div>
+
+    <!-- Email input -->
+    <div class="form-outline mb-4">
+      <input type="text" id="form2Example1" class="form-control" [(ngModel)]="user.email" name="email"/>
+      <label class="form-label" for="form2Example1">Email</label>
+    </div>
+
+      <!-- Role input
+  <div class="form-outline mb-4">
+    <input type="text" id="form2Example1" class="form-control" [(ngModel)]="user.role" name="role"/>
+    <label class="form-label" for="form2Example1">Role</label>
+  </div>-->
+
+    <label class="form-label" for="form2Example1">Role:</label>
+    <select name="role" id="form2Example1" class="form-control" [(ngModel)]="user.role"  multiple>
+      <option value="Super Admin">Super Admin</option>
+      <option value="Group Admin">Admin</option>
+      <option value="Group Assis">Assis</option>
+      <option value="member">Member</option>
+    </select>
+
+  <!-- Submit button -->
+  <button type="button" class="btn btn-primary btn-block mb-4" (click)="create()">Create User</button>
+</form>
