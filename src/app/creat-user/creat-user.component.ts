@@ -30,7 +30,7 @@ export class CreatUserComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  create(){
+  /*create(){
     this.httpClient.post(BACKEND_URL + '/create', this.user).subscribe((data:any)=>{
       if (data.ok!=false) {
         alert("User created");
@@ -39,5 +39,5 @@ export class CreatUserComponent implements OnInit {
         alert('Sorry, username or password is not valid');
       }
     });
-  }
+  }*/
 }

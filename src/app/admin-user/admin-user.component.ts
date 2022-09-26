@@ -40,7 +40,7 @@ export class AdminUserComponent implements OnInit {
   ngOnInit(): void {
     //this.getUsers();
   }
-  delChannel(a:any, b:any) {
+  /*delChannel(a:any, b:any) {
     this.groupDetail.group = a;
     this.groupDetail.channel = b;
     this.httpClient.post(BACKEND_URL + '/delChannel', this.groupDetail).subscribe((data:any)=>{
@@ -132,5 +132,5 @@ export class AdminUserComponent implements OnInit {
         }
       });
     }
-  }
+  }*/
 }

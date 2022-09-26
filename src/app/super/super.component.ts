@@ -43,7 +43,7 @@ export class SuperComponent implements OnInit {
   ngOnInit(): void {
     //this.getUsers();
   }
-  delChannel(a:any, b:any) {
+  /*delChannel(a:any, b:any) {
     this.groupDetail.group = a;
     this.groupDetail.channel = b;
     this.httpClient.post(BACKEND_URL + '/delChannel', this.groupDetail).subscribe((data:any)=>{
@@ -141,5 +141,5 @@ export class SuperComponent implements OnInit {
          alert('Sorry, username or password is not valid');
        }
      });
-  }
+  }*/
 }

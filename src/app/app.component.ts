@@ -8,7 +8,7 @@ import { Router } from '@angular/router'
 export class AppComponent {
   title = 'Assignment1';
   constructor(private router: Router) {}
-  logOut(){
+  /*logOut(){
     sessionStorage.clear();
     this.router.navigateByUrl('/login');
 
@@ -19,5 +19,5 @@ export class AppComponent {
     } else {
       alert("You need to log out before log in!");
     }
-  }
+  }*/
 }
