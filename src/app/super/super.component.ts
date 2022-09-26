@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { group } from '../database/group';
+import { channel } from '../database/channel';
+import { user } from '../database/user';
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'applicaiton/json'})
 };

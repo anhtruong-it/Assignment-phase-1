@@ -129,4 +129,50 @@
   <span class="btn btn-primary" [routerLink]="['/add-product']">Add new product</span>
 </div>
 <br>
+<button type="button" class="btn btn-primary btn-block mb-4" (click)="GCU()">Show Groups/Channels/Users</button>
 
+<table class="table">
+  <tr>
+    <th>Group</th>
+    <th>Channel Name</th>
+    <th>User</th>
+  </tr>
+
+  <tr style="padding-top:20px;" *ngFor="let group of gcu" >
+    <li>
+      {{group.groupID}}
+      <tr
+       style="padding-top:20px;" *ngFor="let channels of group.channel" >
+        <ul>
+
+            {{channels.channelId}}
+            <tr
+             style="padding-top:20px;" *ngFor="let user of channels.user" >
+
+                <td>
+                  {{user.userId}}
+                </td>
+
+            </tr>
+
+        </ul>
+      </tr>
+    </li>
+  </tr>
+</table>
+
+<ul>
+  <li style="padding-top:20px;" *ngFor="let group of gcu" >
+    <p>Group: {{group.groupID}}</p>
+    <ul>
+      <li style="padding-top:20px;" *ngFor="let channel of group.channel" >
+        <p>Channel: {{channel.channelId}}</p>
+        <ul>
+          <li style="padding-top:20px;" *ngFor="let user of channel.user" >
+            <p>User: {{user.userId}}</p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>

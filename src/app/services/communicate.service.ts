@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { group } from '../database/group';
 import { channel } from '../database/channel';
 import { user } from '../database/user';
+import { GCU } from '../database/G-C-U';
 
 @Injectable({
   providedIn: 'root'
@@ -13,5 +14,9 @@ export class CommunicateService {
 
   getlist() {
     return this.http.get<any>('http://localhost:3000/api/getlist');
+  }
+
+  getGCU() {
+    return this.http.get<any>('http://localhost:3000/api/getGCU');
   }
 }

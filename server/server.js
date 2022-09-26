@@ -1,63 +1,3 @@
-// User class
-/*class User {
-  username=String;
-  email;
-  id=Number;
-  role;
-  password;
-
-
-
-[
-  {
-    "id": "0",
-    "username": "tony",
-    "password": "111",
-    "email": "tony@com",
-    "role": "member"
-  },
-  {
-    "id": "1",
-    "username": "tommy",
-    "password": "222",
-    "email": "tommy@com",
-    "role": "member"
-  }
-]
-
-
-
-  constructor(username=String, email, id=Number, role, password=''){
-      this.username=username;
-      this.email=email;
-      this.id=id;
-      this.role=role;
-      this.password=password;
-  }
-}*/
-
-/*User (
-  [ username='tony', id=1, email='tony@com', password='111', role='member',],
-  [ username='tommy', id=2, email='tommy@com', password='222', role='Super Admin',],
-);*/
-
-/*var a = {
-  User: [{
-    username:'tony',
-    id:1,
-    email:'tony@com',
-    password:'111',
-    role:'member',
-  },
-  {
-    username:'tommy',
-    id:2,
-    email:'tommy@com',
-    password:'222',
-    role:'member',
-  }]
-}*/
-//console.log("user==",a);
 const express = require('express');
 const app = express();
 const http = require('http').Server(app);
@@ -146,6 +86,75 @@ const userArray = [
 
 ]
 
+
+const GCUArray = [
+  {
+    groupID:"dsdsa",
+    channel:[
+      {
+        channelId:'das',
+        user: [
+          {
+            userId:'427'
+          },
+          {
+            userId:'5678'
+          },
+        ]
+      },
+    ]
+  },
+  {
+    groupID:"dsdsafsds",
+    channel:[
+      {
+        channelId:'dak;ls',
+        user: [
+          {
+            userId:'12'
+          },
+          {
+            userId:'qsa'
+          },
+          {
+            userId:'5464'
+          }
+        ]
+      },
+      {
+        channelId:'dasvcvx',
+        user: [
+          {
+            userId:'asdas'
+          },
+          {
+            userId:'dasdas'
+          },
+          {
+            userId:'dasfs'
+          },
+        ]
+      },
+      {
+        channelId:'dasvcvx',
+        user: [
+          {
+            userId:'asdas'
+          },
+          {
+            userId:'dasdas'
+          },
+          {
+            userId:'dasfs'
+          },
+        ]
+      },
+    ]
+  },
+
+
+]
+
 const callbackUserHell = async function(client, myColU) {
   result = await myColU.insertMany(userArray);
 }
@@ -161,6 +170,11 @@ const callbackChannelHell = async function(client, myColC) {
   //console.log("channel: ", result);
 }
 
+const callbackGCUHell = async function(client, myColGCU) {
+  result = await myColGCU.insertMany(GCUArray);
+  //console.log("channel: ", result);
+}
+
 
 
 MongoClient.connect(url, {maxPoolSize: 10, useNewUrlParser: true, useUnifiedTopology: true}, function(err, client) {
@@ -168,15 +182,7 @@ MongoClient.connect(url, {maxPoolSize: 10, useNewUrlParser: true, useUnifiedTopo
     const dbName = 'database';
     const db = client.db(dbName);
     db.dropDatabase();
-/*
-    db.removeUser(function(err, result){
-      console.log("Error : "+err);
-      if (err) throw err;
-      console.log("Operation Success ? "+result);
-      // after all the operations with db, close it.
-    });*/
 
-   // const dbName = 'database';
     const dbG = client.db(dbName);
 
     const myCol = dbG.collection('groups');
@@ -188,41 +194,22 @@ MongoClient.connect(url, {maxPoolSize: 10, useNewUrlParser: true, useUnifiedTopo
     const myColU = dbG.collection('users');
     callbackUserHell(client, myColU);
 
+    const myColGCU = dbG.collection('GCUs');
+    callbackGCUHell(client, myColGCU);
+
     const collect = dbG.listCollections().forEach(function(err, coll) {
       console.log("cllect", coll);
     });
-    //console.log("cllect", collect);
-
-   /* dbG.collection('groups').drop(function(err, ok) {
-    // if (err) throw err;
-    });
-
-    dbG.collection('channels').drop(function(err, ok) {
-      // if (err) throw err;
-    });
-*/
-/*
-dbG.collection('users').drop(function(err, ok) {
-  // if (err) throw err;
-});
-
-
-*/
 
 
 
-/*
-    const myColU = dbG.collection('users');
-    callbackUserHell(client, myColU);
 
-
-
-*/
 
 
 
 
     require('./routes/api-getlist')(dbG, app);
+    require('./routes/api-getGCU')(dbG, app);
 
 
     /*

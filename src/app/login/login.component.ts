@@ -4,6 +4,7 @@ import { CommunicateService } from '../services/communicate.service';
 import { group } from '../database/group';
 import { channel } from '../database/channel';
 import { user } from '../database/user';
+import { GCU } from '../database/G-C-U';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'applicaiton/json'})
@@ -25,26 +26,14 @@ const BACKEND_URL = 'http://localhost:3000';
 })
 export class LoginComponent implements OnInit {
 
-  groupDetail = {
-    group: '',
-    channel: '',
-    user: '',
-  };
 
-  userDetail = {
-    username: '',
-    email: '',
-    password: '',
-    role: '',
-    id: '',
-
-  };
 
 
   group: group[] = [];
   channel: channel[] = [];
   user: user[] = [];
-  userList:any[]=[];
+  gcu: GCU[] = [];
+
   constructor(private router:Router, private httpClient: HttpClient, private proddata: CommunicateService) { }
 
   ngOnInit(): void {
@@ -55,6 +44,13 @@ export class LoginComponent implements OnInit {
 
     })
 
+  }
+
+  GCU() {
+
+    this.proddata.getGCU().subscribe((data)=> {
+      this.gcu = data.ok;
+    })
   }
 /*
   logIn(){
