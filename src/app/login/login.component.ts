@@ -1,8 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { CommunicateService } from '../services/communicate.service';
+import { group } from '../database/group';
+import { channel } from '../database/channel';
+import { user } from '../database/user';
+
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'applicaiton/json'})
 };
+
 
 
 // for Angular http methods
@@ -34,17 +40,23 @@ export class LoginComponent implements OnInit {
 
   };
 
-  user = {
-    username:'',
-    password:'',
-    valid:'no',
-  }
+
+  group: group[] = [];
+  channel: channel[] = [];
+  user: user[] = [];
   userList:any[]=[];
-  constructor(private router:Router, private httpClient: HttpClient) { }
+  constructor(private router:Router, private httpClient: HttpClient, private proddata: CommunicateService) { }
 
   ngOnInit(): void {
-  }
+    this.proddata.getlist().subscribe((data)=> {
+      this.group = data.ok[0];
+      this.channel = data.ok[1];
+      this.user = data.ok[2];
 
+    })
+
+  }
+/*
   logIn(){
     this.httpClient.post(BACKEND_URL + '/login', this.user).subscribe((data:any)=>{
       if (data.ok != false) {
@@ -125,7 +137,7 @@ export class LoginComponent implements OnInit {
         alert('show error');
       }
     });
-  }
+  }*/
 
 }
 

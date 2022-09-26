@@ -58,18 +58,198 @@
   }]
 }*/
 //console.log("user==",a);
-var express = require('express');
-var app = express();
-
-var cors = require('cors');
-
+const express = require('express');
+const app = express();
+const http = require('http').Server(app);
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const MongoClient = require('mongodb').MongoClient;
+var ObjectID = require('mongodb').ObjectId;
+const PORT = 3000;
+const server = require('./listen.js');
 app.use(cors());
+app.use(bodyParser.json());
+const url = 'mongodb://localhost:27017';
 
+/*
+const docArray = [
+  {
+    groupId: 1,
+    groupName: "group 1",
+    channel:[
+      {
+        channelId: 1,
+        chanelName: "channel 1",
+      }
+    ]
+  },
+  {
+    groupId: 2,
+    groupName: "group number 2",
+    channel:[
+      {
+        channelId: 1,
+        chanelName: "channel number 1",
+      }
+    ]
+  }
+]
+*/
+
+const groupArray = [
+  {
+    groupId: 1,
+    groupName: "group 1",
+  },
+  {
+    groupId: 2,
+    groupName: "group number 2",
+  }
+]
+
+const channelArray = [
+  {
+    channelId: 01,
+    channelName: "channel 01",
+  },
+  {
+    channelId: 03,
+    channelName: "channel 03"
+  }
+]
+
+const userArray = [
+  {
+    userId: 001,
+    userName: 'a',
+    userPwd: '1',
+    userRole: 'super'
+  },
+  {
+    userId: 002,
+    userName: 'b',
+    userPwd: '2',
+    userRole: 'admin'
+  },
+  {
+    userId: 003,
+    userName: 'c',
+    userPwd: '3',
+    userRole: 'assist'
+  },
+  {
+    userId: 004,
+    userName: 'd',
+    userPwd: '4',
+    userRole: 'users'
+  }
+
+]
+
+const callbackUserHell = async function(client, myColU) {
+  result = await myColU.insertMany(userArray);
+}
+
+const callbackGroupHell = async function(client, myCol) {
+  result = await myCol.insertMany(groupArray);
+ // console.log("Inserted");
+ // console.log(docArray);
+};
+
+const callbackChannelHell = async function(client, myColC) {
+  result = await myColC.insertMany(channelArray);
+  //console.log("channel: ", result);
+}
+
+
+
+MongoClient.connect(url, {maxPoolSize: 10, useNewUrlParser: true, useUnifiedTopology: true}, function(err, client) {
+  if (err) { return console.log(err)}
+    const dbName = 'database';
+    const db = client.db(dbName);
+    db.dropDatabase();
+/*
+    db.removeUser(function(err, result){
+      console.log("Error : "+err);
+      if (err) throw err;
+      console.log("Operation Success ? "+result);
+      // after all the operations with db, close it.
+    });*/
+
+   // const dbName = 'database';
+    const dbG = client.db(dbName);
+
+    const myCol = dbG.collection('groups');
+    callbackGroupHell(client, myCol);
+
+    const myColC = dbG.collection('channels');
+    callbackChannelHell(client, myColC);
+
+    const myColU = dbG.collection('users');
+    callbackUserHell(client, myColU);
+
+    const collect = dbG.listCollections().forEach(function(err, coll) {
+      console.log("cllect", coll);
+    });
+    //console.log("cllect", collect);
+
+   /* dbG.collection('groups').drop(function(err, ok) {
+    // if (err) throw err;
+    });
+
+    dbG.collection('channels').drop(function(err, ok) {
+      // if (err) throw err;
+    });
+*/
+/*
+dbG.collection('users').drop(function(err, ok) {
+  // if (err) throw err;
+});
+
+
+*/
+
+
+
+/*
+    const myColU = dbG.collection('users');
+    callbackUserHell(client, myColU);
+
+
+
+*/
+
+
+
+
+    require('./routes/api-getlist')(dbG, app);
+
+
+    /*
+    require('./routes/api-add.js')(db, app);
+    require('./routes/api-prodcount.js')(db, app);
+    require('./routes/api-validid.js')(db, app);
+    require('./routes/api-getlist.js')(db, app);
+    require('./routes/api-getitem.js')(db, app, ObjectID);
+    require('./routes/api-update.js')(db, app, ObjectID);
+    require('./routes/api-deleteitem.js')(db, app, ObjectID);
+    */
+    server.listen(http, PORT);
+
+
+})
+
+
+
+
+/*
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(express.static(__dirname + '/../dist/Assignment1'));
+*/
 
-var http = require('http').Server(app);
+
+/*
 var server = http.listen(3000, function(){
   console.log("Server listening on port: 3000");
 });
@@ -394,4 +574,4 @@ app.post('/delChannel', function(req, res) {
     });
     res.send({"ok": true});
 });
-
+*/

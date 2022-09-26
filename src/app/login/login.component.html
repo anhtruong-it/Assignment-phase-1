@@ -1,26 +1,28 @@
 <form>
-  <!-- Username input -->
+  <!-- Username input
   <div class="form-outline mb-4">
-    <input type="text" id="form2Example1" class="form-control" [(ngModel)]="user.username" name="username"/>
     <label class="form-label" for="form2Example1">Username</label>
+    <input type="text" id="form2Example1" class="form-control" [(ngModel)]="user.username" name="username"/>
+
   </div>
 
-  <!-- Password input -->
+   Password input
   <div class="form-outline mb-4">
-    <input type="password" id="form2Example2" class="form-control" [(ngModel)]="user.password" name="password"/>
     <label class="form-label" for="form2Example2">Password</label>
+    <input type="password" id="form2Example2" class="form-control" [(ngModel)]="user.password" name="password"/>
+
   </div>
 
 
-  <!-- Submit button -->
+   Submit button
   <button type="button" class="btn btn-primary btn-block mb-4" (click)="logIn()">Sign in</button>
-</form>
+</form>-->
 
 
 
 
 <br>
-
+<!--
   <ul>
     <li *ngFor="let item of userList; let k = index" [attr.data-index]="k">
       <p>Group: {{item.group}}</p>
@@ -42,12 +44,14 @@
 
       </li>
   </ul>
+  -->
 
   <br>
 
 
 
 <br>
+<!--
 <ul>
   <li *ngFor="let item of userList; let i = index" [attr.data-index]="i">
       {{item.username}}, {{item.email}}, {{item.password}}, {{item.id}}, {{item.role}}
@@ -60,6 +64,69 @@
         <option value="member">Member</option>
       </select>
       </li>
-</ul>
+</ul>-->
+<div class="container">
+  <table class="table">
+    <tr>
+      <th>Group ID</th>
+      <th>Group Name</th>
+    </tr>
+
+    <tr style="padding-top:20px;" *ngFor="let groups of group" >
+      <td>{{groups.groupId}}</td>
+      <td>{{groups.groupName}}</td>
+
+     <!-- <td><span class="btn btn-primary" [routerLink]="['/update-product', groups._id]"><i class="fa fa-edit"></i> Edit</span>
+          &nbsp; <span class="btn btn=primary" (click)="deleteproduct(groups._id)"><i class="fa fa-trash"> Delete</i></span>
+          &nbsp;  <span class="btn btn-primary" (click)="getitems(products._id)"><i class="fa fa-edit"></i> Edit second</span>
+
+      </td>-->
+
+    </tr>
+  </table>
+  <br>
+  <table class="table">
+    <tr>
+      <th>Channel ID</th>
+      <th>Channel Name</th>
+    </tr>
+
+    <tr style="padding-top:20px;" *ngFor="let channels of channel" >
+      <td>{{channels.channelId}}</td>
+      <td>{{channels.channelName}}</td>
+
+     <!-- <td><span class="btn btn-primary" [routerLink]="['/update-product', groups._id]"><i class="fa fa-edit"></i> Edit</span>
+          &nbsp; <span class="btn btn=primary" (click)="deleteproduct(groups._id)"><i class="fa fa-trash"> Delete</i></span>
+          &nbsp;  <span class="btn btn-primary" (click)="getitems(products._id)"><i class="fa fa-edit"></i> Edit second</span>
+
+      </td>-->
+
+    </tr>
+  </table>
+  <br>
+  <table class="table">
+    <tr>
+      <th>User ID</th>
+      <th>User Name</th>
+      <th>User Password</th>
+      <th>User Role</th>
+    </tr>
+
+    <tr style="padding-top:20px;" *ngFor="let users of user" >
+      <td>{{users.userId}}</td>
+      <td>{{users.userName}}</td>
+      <td>{{users.userPwd}}</td>
+      <td>{{users.userRole}}</td>
+
+     <!-- <td><span class="btn btn-primary" [routerLink]="['/update-product', groups._id]"><i class="fa fa-edit"></i> Edit</span>
+          &nbsp; <span class="btn btn=primary" (click)="deleteproduct(groups._id)"><i class="fa fa-trash"> Delete</i></span>
+          &nbsp;  <span class="btn btn-primary" (click)="getitems(products._id)"><i class="fa fa-edit"></i> Edit second</span>
+
+      </td>-->
+
+    </tr>
+  </table>
+  <span class="btn btn-primary" [routerLink]="['/add-product']">Add new product</span>
+</div>
 <br>
 
