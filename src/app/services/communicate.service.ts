@@ -19,4 +19,10 @@ export class CommunicateService {
   getGCU() {
     return this.http.get<any>('http://localhost:3000/api/getGCU');
   }
+
+  createUser(users: user) {
+   // alert([users.userId, users.userName, users.userPwd, users.userRole]);
+
+    return this.http.post<any>('http://localhost:3000/api/createUser', users);
+  }
 }

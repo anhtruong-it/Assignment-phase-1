@@ -34,6 +34,16 @@ export class LoginComponent implements OnInit {
   user: user[] = [];
   gcu: GCU[] = [];
 
+  //add user:
+  userId: number = null;
+  userName: string = '';
+  userPwd: string = '';
+  userRole: string = '';
+  newUser: user;
+  userobjid: string = '';
+
+  // end
+
   constructor(private router:Router, private httpClient: HttpClient, private proddata: CommunicateService) { }
 
   ngOnInit(): void {
@@ -52,6 +62,31 @@ export class LoginComponent implements OnInit {
       this.gcu = data.ok;
     })
   }
+
+  createUser(event) {
+    event.preventDefault();
+    if (this.userId == null) {
+      alert("userId = null ");
+    } else {
+      //alert("ok");
+      this.newUser = new user(this.userId, this.userName, this.userPwd, this.userRole);
+      this.proddata.createUser(this.newUser).subscribe((data)=> {
+        console.log(data);
+        if (data.err == null) {
+          alert('new User created');
+        } else {
+          alert(data.err);
+        }
+        this.userId = null;
+        this.userName = "";
+        this.userPwd = "";
+        this.userRole = "";
+        this.router.navigateByUrl('/login');
+
+      })
+    }
+  }
+
 /*
   logIn(){
     this.httpClient.post(BACKEND_URL + '/login', this.user).subscribe((data:any)=>{

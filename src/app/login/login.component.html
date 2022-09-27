@@ -177,5 +177,44 @@
     </li>
   </tr>
 </table>-->
+<div class="container">
+  <form (submit)="createUser($event)">
+    <div class="form-group">
+      <label for="productid">User ID</label>
+      <input type="number" class="form-control" id="userId" [(ngModel)]="userId"
+      name="userId" placeholder="ID">
+
+    </div>
+
+    <div class="form-group">
+      <label for="productid">User Name</label>
+      <input type="text" class="form-control" id="userName" [(ngModel)]="userName" name="userName">
+    </div>
+
+    <div class="form-group">
+      <label for="productid">Password</label>
+      <input type="text" class="form-control" id="userPwd" [(ngModel)]="userPwd" name="userPwd">
+    </div>
+
+    <div>
+      <label for="productid">Role</label>
+      <select name="userRole" id="userRole" class="form-control" [(ngModel)]="userRole" multiple>
+        <option value="Super Admin">Super Admin</option>
+        <option value="Group Admin">Admin</option>
+        <option value="Group Assis">Assistant</option>
+        <option value="member">Member</option>
+      </select>
+    </div>
+
+
+
+    <div class="form-group">
+      <button type="submit" class="btn btn=primary"><i class="fa fa-plus-square"></i> Add New</button>
+    </div>
+
+
+
+  </form>
+</div>
 
 

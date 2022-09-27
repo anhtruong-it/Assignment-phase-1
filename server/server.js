@@ -63,25 +63,25 @@ const userArray = [
     userId: 001,
     userName: 'a',
     userPwd: '1',
-    userRole: 'super'
+    userRole: 'Super Admin'
   },
   {
     userId: 002,
     userName: 'b',
     userPwd: '2',
-    userRole: 'admin'
+    userRole: 'Group Admin'
   },
   {
     userId: 003,
     userName: 'c',
     userPwd: '3',
-    userRole: 'assist'
+    userRole: 'Group Assis'
   },
   {
     userId: 004,
     userName: 'd',
     userPwd: '4',
-    userRole: 'users'
+    userRole: 'member'
   }
 
 ]
@@ -213,14 +213,9 @@ MongoClient.connect(url, {maxPoolSize: 10, useNewUrlParser: true, useUnifiedTopo
     });
 
 
-
-
-
-
-
-
     require('./routes/api-getlist')(dbG, app);
     require('./routes/api-getGCU')(dbG, app);
+    require('./routes/api-createUser')(dbG, app);
 
 
     /*

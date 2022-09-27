@@ -4,9 +4,10 @@ export class channel {
   _id = UntypedFormBuilder;
   channelId: number;
   channelName: string;
+  userId: [
+    {
+      id: any,
+    },
+  ];
 
-  constructor(channelId: number, channelName: string) {
-    this.channelId = channelId;
-    this.channelName = channelName;
-  }
 }
