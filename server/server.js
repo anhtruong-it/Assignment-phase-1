@@ -102,6 +102,17 @@ const GCUArray = [
           },
         ]
       },
+      {
+        channelId:'fgh',
+        user: [
+          {
+            userId:'427fds'
+          },
+          {
+            userId:'5678fds'
+          },
+        ]
+      },
     ]
   },
   {

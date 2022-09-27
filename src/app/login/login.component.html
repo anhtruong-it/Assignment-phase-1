@@ -137,6 +137,24 @@
     <th>Channel Name</th>
     <th>User</th>
   </tr>
+  <tr style="padding-top:20px;" *ngFor="let group of gcu" >
+    <td>{{group.groupID}}</td>
+    <td>
+      <ul style="padding-top:20px;" *ngFor="let channels of group.channel">
+        {{channels.channelId}}</ul>
+    </td>
+
+      <ul style="padding-top:20px;" *ngFor="let user of group.channel">
+        <td style="padding-top:20px;" *ngFor="let users of user.user">
+          {{users.userId}},
+        </td>
+      </ul>
+
+
+  </tr>
+</table>
+
+<!--
 
   <tr style="padding-top:20px;" *ngFor="let group of gcu" >
     <li>
@@ -144,7 +162,6 @@
       <tr
        style="padding-top:20px;" *ngFor="let channels of group.channel" >
         <ul>
-
             {{channels.channelId}}
             <tr
              style="padding-top:20px;" *ngFor="let user of channels.user" >
@@ -159,20 +176,6 @@
       </tr>
     </li>
   </tr>
-</table>
+</table>-->
 
-<ul>
-  <li style="padding-top:20px;" *ngFor="let group of gcu" >
-    <p>Group: {{group.groupID}}</p>
-    <ul>
-      <li style="padding-top:20px;" *ngFor="let channel of group.channel" >
-        <p>Channel: {{channel.channelId}}</p>
-        <ul>
-          <li style="padding-top:20px;" *ngFor="let user of channel.user" >
-            <p>User: {{user.userId}}</p>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
+
