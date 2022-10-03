@@ -1,13 +1,18 @@
 import { UntypedFormBuilder } from "@angular/forms";
 
 export class GCU {
-  groupID: any;
+  _id = UntypedFormBuilder;
+  groupId: number;
+  groupName: string;
   channel: [
     {
-      channelId: any,
+      channelId: number,
+      channelName: string,
       user:[
         {
-          userId: any,
+          userId: number,
+          userName: string,
+          userRole: string,
         },
       ];
     } ,

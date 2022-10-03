@@ -28,6 +28,10 @@ export class LoginComponent implements OnInit {
 
 
 
+  formOpen = false;
+  channelId: number;
+  channelName: string;
+  newChannel : channel;
 
   group: group[] = [];
   channel: channel[] = [];
@@ -47,12 +51,14 @@ export class LoginComponent implements OnInit {
   constructor(private router:Router, private httpClient: HttpClient, private proddata: CommunicateService) { }
 
   ngOnInit(): void {
+    /*
     this.proddata.getlist().subscribe((data)=> {
       this.group = data.ok[0];
       this.channel = data.ok[1];
       this.user = data.ok[2];
 
     })
+    */
 
   }
 
@@ -62,6 +68,30 @@ export class LoginComponent implements OnInit {
       this.gcu = data.ok;
     })
   }
+
+  addChannel(groupd_id, channelId, channelName) {
+    this.channelId = channelId;
+    this.channelName = channelName;
+    //alert([groupd_id, this.channelId, this.channelName]);
+    this.newChannel = new channel(this.channelId, this.channelName,groupd_id);
+    //alert([this.newChannel.channelId, this.newChannel.channelName, this.newChannel.groupID])
+    /*
+    this.proddata.addChannel(groupd_id).subscribe((data)=> {
+      if (data.ok) {
+        alert("ok");
+      }
+    });
+    */
+  }
+
+  openForm() {
+    this.formOpen = true;
+  }
+
+  closeForm() {
+    this.formOpen = false;
+  }
+
 
   createUser(event) {
     event.preventDefault();

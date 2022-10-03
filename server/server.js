@@ -40,45 +40,95 @@ const groupArray = [
   {
     groupId: 1,
     groupName: "group 1",
+    channel: [
+      {
+        channelName: "channel 1",
+        user: [
+          {
+            user_id: "",
+            userId: "",
+            userName: "",
+            userRole: "",
+          }
+        ]
+      },
+    ]
   },
   {
     groupId: 2,
-    groupName: "group number 2",
+    groupName: "group 2",
+    channel: [
+      {
+        channelName: "channel 2",
+        user: [
+          {
+            user_id: "",
+            userId: "",
+            userName: "",
+            userRole: "",
+          }
+        ]
+      },
+    ]
   }
 ]
+
 
 const channelArray = [
   {
-    channelId: 01,
+    channelId: 1,
     channelName: "channel 01",
+    groupID: 1,
+
   },
   {
-    channelId: 03,
-    channelName: "channel 03"
+    channelId: 3,
+    channelName: "channel 03",
+    groupID: 2,
+  },
+  {
+    channelId: 4,
+    channelName: "channel 04",
+    groupID: 1,
   }
 ]
 
+
+/*
+const channelArray = [
+  {
+    channelId: 1,
+    channelName: "channel 01",
+    userId: [
+      {
+        id: '',
+      },
+    ]
+  },
+]
+*/
+
 const userArray = [
   {
-    userId: 001,
+    userId: 1,
     userName: 'a',
     userPwd: '1',
     userRole: 'Super Admin'
   },
   {
-    userId: 002,
+    userId: 2,
     userName: 'b',
     userPwd: '2',
     userRole: 'Group Admin'
   },
   {
-    userId: 003,
+    userId: 3,
     userName: 'c',
     userPwd: '3',
     userRole: 'Group Assis'
   },
   {
-    userId: 004,
+    userId: 4,
     userName: 'd',
     userPwd: '4',
     userRole: 'member'
@@ -86,7 +136,7 @@ const userArray = [
 
 ]
 
-
+/*
 const GCUArray = [
   {
     groupID:"dsdsa",
@@ -162,9 +212,57 @@ const GCUArray = [
       },
     ]
   },
-
-
 ]
+*/
+
+const GCUArray = [
+  {
+    groupId: 1,
+    groupName: "group 1",
+    channel: [
+      {
+        channelId: 1,
+        channelName: "channel 01",
+        user: [
+          {
+            userId: "",
+            userName: "",
+            userRole: "",
+          }
+        ]
+      },
+      {
+        channelId: 4,
+        channelName: "channel 04",
+        user: [
+          {
+            userId: "",
+            userName: "",
+            userRole: "",
+          }
+        ]
+      },
+    ]
+  },
+  {
+    groupId: 2,
+    groupName: "group 2",
+    channel: [
+      {
+        channelId: 3,
+        channelName: "channel 03",
+        user: [
+          {
+            userId: "",
+            userName: "",
+            userRole: "",
+          }
+        ]
+      },
+    ]
+  }
+]
+
 
 const callbackUserHell = async function(client, myColU) {
   result = await myColU.insertMany(userArray);
@@ -216,6 +314,7 @@ MongoClient.connect(url, {maxPoolSize: 10, useNewUrlParser: true, useUnifiedTopo
     require('./routes/api-getlist')(dbG, app);
     require('./routes/api-getGCU')(dbG, app);
     require('./routes/api-createUser')(dbG, app);
+    require('./routes/api-addChannel')(dbG, app, ObjectID);
 
 
     /*

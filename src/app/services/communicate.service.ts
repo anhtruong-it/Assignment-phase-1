@@ -25,4 +25,8 @@ export class CommunicateService {
 
     return this.http.post<any>('http://localhost:3000/api/createUser', users);
   }
+
+  addChannel(GCUs: GCU) {
+    return this.http.post<any>('http://localhost:3000/api/addchannel', GCUs)
+  }
 }

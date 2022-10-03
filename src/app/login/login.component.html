@@ -65,6 +65,8 @@
       </select>
       </li>
 </ul>-->
+
+<!--
 <div class="container">
   <table class="table">
     <tr>
@@ -75,12 +77,13 @@
     <tr style="padding-top:20px;" *ngFor="let groups of group" >
       <td>{{groups.groupId}}</td>
       <td>{{groups.groupName}}</td>
+      -->
 
      <!-- <td><span class="btn btn-primary" [routerLink]="['/update-product', groups._id]"><i class="fa fa-edit"></i> Edit</span>
           &nbsp; <span class="btn btn=primary" (click)="deleteproduct(groups._id)"><i class="fa fa-trash"> Delete</i></span>
           &nbsp;  <span class="btn btn-primary" (click)="getitems(products._id)"><i class="fa fa-edit"></i> Edit second</span>
 
-      </td>-->
+      </td>
 
     </tr>
   </table>
@@ -93,43 +96,46 @@
 
     <tr style="padding-top:20px;" *ngFor="let channels of channel" >
       <td>{{channels.channelId}}</td>
-      <td>{{channels.channelName}}</td>
+      <td>{{channels.channelName}}</td>-->
 
      <!-- <td><span class="btn btn-primary" [routerLink]="['/update-product', groups._id]"><i class="fa fa-edit"></i> Edit</span>
           &nbsp; <span class="btn btn=primary" (click)="deleteproduct(groups._id)"><i class="fa fa-trash"> Delete</i></span>
           &nbsp;  <span class="btn btn-primary" (click)="getitems(products._id)"><i class="fa fa-edit"></i> Edit second</span>
 
-      </td>-->
+      </td>
 
     </tr>
   </table>
   <br>
-  <table class="table">
-    <tr>
-      <th>User ID</th>
-      <th>User Name</th>
-      <th>User Password</th>
-      <th>User Role</th>
-    </tr>
+ </div>-->
 
-    <tr style="padding-top:20px;" *ngFor="let users of user" >
-      <td>{{users.userId}}</td>
-      <td>{{users.userName}}</td>
-      <td>{{users.userPwd}}</td>
-      <td>{{users.userRole}}</td>
+ <table class="table">
+  <tr>
+    <th>User ID</th>
+    <th>User Name</th>
+    <th>User Password</th>
+    <th>User Role</th>
+  </tr>
 
-     <!-- <td><span class="btn btn-primary" [routerLink]="['/update-product', groups._id]"><i class="fa fa-edit"></i> Edit</span>
-          &nbsp; <span class="btn btn=primary" (click)="deleteproduct(groups._id)"><i class="fa fa-trash"> Delete</i></span>
-          &nbsp;  <span class="btn btn-primary" (click)="getitems(products._id)"><i class="fa fa-edit"></i> Edit second</span>
+  <tr style="padding-top:20px;" *ngFor="let users of user" >
+    <td>{{users.userId}}</td>
+    <td>{{users.userName}}</td>
+    <td>{{users.userPwd}}</td>
+    <td>{{users.userRole}}</td>
 
-      </td>-->
+   <!-- <td><span class="btn btn-primary" [routerLink]="['/update-product', groups._id]"><i class="fa fa-edit"></i> Edit</span>
+        &nbsp; <span class="btn btn=primary" (click)="deleteproduct(groups._id)"><i class="fa fa-trash"> Delete</i></span>
+        &nbsp;  <span class="btn btn-primary" (click)="getitems(products._id)"><i class="fa fa-edit"></i> Edit second</span>
 
-    </tr>
-  </table>
-  <span class="btn btn-primary" [routerLink]="['/add-product']">Add new product</span>
-</div>
+    </td>-->
+
+  </tr>
+</table>
+<span class="btn btn-primary" [routerLink]="['/add-product']">Add new product</span>
+
 <br>
 <button type="button" class="btn btn-primary btn-block mb-4" (click)="GCU()">Show Groups/Channels/Users</button>
+
 
 <table class="table">
   <tr>
@@ -138,10 +144,31 @@
     <th>User</th>
   </tr>
   <tr style="padding-top:20px;" *ngFor="let group of gcu" >
-    <td>{{group.groupID}}</td>
+    <td>
+      {{group.groupId}}, {{group.groupName}}
+
+      <div>
+        <button class="open-button" (click)="openForm()">Open add new channel</button>
+
+        <div *ngIf="formOpen" class="form-popup" id="myForm">
+          <form action="/action_page.php" class="form-container">
+            <h1>Add new channel</h1>
+
+              <label for="channelId">Channel Id</label>
+              <input type="number" class="form-control" id="channelId" [(ngModel)]="channelId" name="channelId">
+
+              <label for="channelName"><b>Name</b></label>
+              <input type="text" class="form-control" id="channelName" [(ngModel)]="channelName" name="channelName">
+
+            <button type="button" class="btn btn-primary btn-block mb-4" (click)="addChannel(group._id, channelId, channelName)">Add Channel</button>
+            <button type="button" class="btn cancel" (click)="closeForm()">Close</button>
+          </form>
+        </div>
+      </div>
+    </td>
     <td>
       <ul style="padding-top:20px;" *ngFor="let channels of group.channel">
-        {{channels.channelId}}</ul>
+        {{channels.channelId}}, {{channels.channelName}}</ul>
     </td>
 
       <ul style="padding-top:20px;" *ngFor="let user of group.channel">
@@ -209,12 +236,14 @@
 
 
     <div class="form-group">
-      <button type="submit" class="btn btn=primary"><i class="fa fa-plus-square"></i> Add New</button>
+      <button type="submit" class="btn btn=primary"><i class="fa fa-plus-square"></i> Add New User</button>
     </div>
 
 
 
   </form>
 </div>
+
+
 
 
