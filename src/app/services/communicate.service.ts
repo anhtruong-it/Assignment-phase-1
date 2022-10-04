@@ -4,6 +4,7 @@ import { group } from '../database/group';
 import { channel } from '../database/channel';
 import { user } from '../database/user';
 import { GCU } from '../database/G-C-U';
+import {newchannels} from '../database/channels'
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,11 @@ export class CommunicateService {
     return this.http.post<any>('http://localhost:3000/api/createUser', users);
   }
 
-  addChannel(GCUs: GCU) {
-    return this.http.post<any>('http://localhost:3000/api/addchannel', GCUs)
+  addChannel(newChannel: channel) {
+    return this.http.post<any>('http://localhost:3000/api/addchannel', newChannel)
+  }
+
+  testChannel() {
+    return this.http.get<any>('http://localhost:3000/api/testChannel');
   }
 }

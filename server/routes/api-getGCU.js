@@ -23,13 +23,13 @@ module.exports = function(dbG, app) {
 
 
     const U = await collectionU.find({}).toArray();
-    console.log(U);
+    //console.log(U);
     U.forEach(id => {
       Uid.push(id._id);
     })
 
     const C = await collectionC.find({}).toArray();
-    console.log(C);
+   // console.log(C);
     C.forEach(id => {
       Cid.push(id._id);
     })
@@ -39,14 +39,21 @@ module.exports = function(dbG, app) {
     //console.log("Gid: ", Gid);
     //console.log("Cid: ", Cid);
     //console.log("Uid: ", Uid);
-    console.log("GCU: ", GCU);
+   // console.log("GCU: ", GCU);
     GCU.forEach(channel => {
-      console.log("GCU: ", channel)
+     // console.log("GCU: ", channel)
     })
 
 
    const GCUs = dbG.collection('GCUs');
    GCUs.find({}).toArray((err, data)=> {
+
+    console.log("GCUS: ", data);
+    data.forEach(c=>{console.log("channel: ", c.channel);})
+    console.log("---------------")
+
+
+
     res.send({"ok":data});
    });
 

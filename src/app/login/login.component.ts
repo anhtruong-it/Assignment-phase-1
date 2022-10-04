@@ -5,6 +5,7 @@ import { group } from '../database/group';
 import { channel } from '../database/channel';
 import { user } from '../database/user';
 import { GCU } from '../database/G-C-U';
+import { newchannels } from '../database/channels';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'applicaiton/json'})
@@ -28,10 +29,12 @@ export class LoginComponent implements OnInit {
 
 
 
-  formOpen = false;
+  formOpen = true;
   channelId: number;
   channelName: string;
   newChannel : channel;
+  newChannels: newchannels;
+  testChannels: channel[] = [];
 
   group: group[] = [];
   channel: channel[] = [];
@@ -70,18 +73,31 @@ export class LoginComponent implements OnInit {
   }
 
   addChannel(groupd_id, channelId, channelName) {
+
     this.channelId = channelId;
     this.channelName = channelName;
     //alert([groupd_id, this.channelId, this.channelName]);
     this.newChannel = new channel(this.channelId, this.channelName,groupd_id);
     //alert([this.newChannel.channelId, this.newChannel.channelName, this.newChannel.groupID])
-    /*
-    this.proddata.addChannel(groupd_id).subscribe((data)=> {
-      if (data.ok) {
-        alert("ok");
+
+    this.proddata.addChannel(this.newChannel).subscribe((data)=> {
+      if (data.ok=="ok") {
+        alert("added");
+        this.GCU();
+      } else {
+        alert("false");
+        this.GCU();
       }
     });
-    */
+
+
+  }
+
+  testChannel(){
+    this.proddata.testChannel().subscribe((data)=> {
+      this.testChannels = data.ok;
+
+    })
   }
 
   openForm() {

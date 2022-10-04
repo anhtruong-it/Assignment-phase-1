@@ -160,7 +160,7 @@
               <label for="channelName"><b>Name</b></label>
               <input type="text" class="form-control" id="channelName" [(ngModel)]="channelName" name="channelName">
 
-            <button type="button" class="btn btn-primary btn-block mb-4" (click)="addChannel(group._id, channelId, channelName)">Add Channel</button>
+            <button type="button" class="btn btn-primary btn-block mb-4" (click)="addChannel(group.groupId, channelId, channelName)">Add Channel</button>
             <button type="button" class="btn cancel" (click)="closeForm()">Close</button>
           </form>
         </div>
@@ -244,6 +244,27 @@
   </form>
 </div>
 
+<button type="button" class="btn btn-primary btn-block mb-4" (click)="testChannel()">Show Channels</button>
+<table class="table">
+  <tr>
+    <th>Channel ID</th>
+    <th>Channel Name</th>
+    <th>Group ID</th>
+
+  </tr>
+
+  <tr style="padding-top:20px;" *ngFor="let channel of testChannels" >
+    <td>{{channel.channelId}}</td>
+    <td>{{channel.channelName}}</td>
+    <td>{{channel.groupID}}</td>
+   <!-- <td><span class="btn btn-primary" [routerLink]="['/update-product', groups._id]"><i class="fa fa-edit"></i> Edit</span>
+        &nbsp; <span class="btn btn=primary" (click)="deleteproduct(groups._id)"><i class="fa fa-trash"> Delete</i></span>
+        &nbsp;  <span class="btn btn-primary" (click)="getitems(products._id)"><i class="fa fa-edit"></i> Edit second</span>
+
+    </td>-->
+
+  </tr>
+</table>
 
 
 
