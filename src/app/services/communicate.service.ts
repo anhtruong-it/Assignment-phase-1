@@ -34,4 +34,8 @@ export class CommunicateService {
   testChannel() {
     return this.http.get<any>('http://localhost:3000/api/testChannel');
   }
+
+  deleteGroup(groupId){
+    return this.http.post<any>('http://localhost:3000/api/deleteGroup', {'groupId': groupId});
+  }
 }

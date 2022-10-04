@@ -76,21 +76,31 @@ export class LoginComponent implements OnInit {
 
     this.channelId = channelId;
     this.channelName = channelName;
-    //alert([groupd_id, this.channelId, this.channelName]);
     this.newChannel = new channel(this.channelId, this.channelName,groupd_id);
-    //alert([this.newChannel.channelId, this.newChannel.channelName, this.newChannel.groupID])
 
     this.proddata.addChannel(this.newChannel).subscribe((data)=> {
       if (data.ok=="ok") {
         alert("added");
         this.GCU();
+        this.channelId=null;
+        this.channelName="";
       } else {
         alert("false");
         this.GCU();
       }
     });
+  }
 
+  deleteGroup(groupId){
+    if (confirm("Are you sure you want to delete this group")) {
+      this.proddata.deleteGroup(groupId).subscribe((data)=> {
+        //this.product = data;
+        if(data) {
+          this.GCU();
+        }
 
+      });
+    }
   }
 
   testChannel(){
