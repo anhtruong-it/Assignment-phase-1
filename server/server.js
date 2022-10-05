@@ -320,8 +320,10 @@ MongoClient.connect(url, {maxPoolSize: 10, useNewUrlParser: true, useUnifiedTopo
     require('./routes/api-getGCU')(dbG, app);
     require('./routes/api-createUser')(dbG, app);
     require('./routes/api-addChannel')(dbG, app, ObjectID);
+    require('./routes/api-addGroup')(dbG, app, ObjectID);
     require('./routes/api-testChannel')(dbG, app);
     require('./routes/api-deleteGroup')(dbG, app, ObjectID);
+    require('./routes/api-deleteChannel')(dbG, app, ObjectID);
 
 
     /*

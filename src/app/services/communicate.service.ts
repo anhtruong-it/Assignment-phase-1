@@ -27,6 +27,10 @@ export class CommunicateService {
     return this.http.post<any>('http://localhost:3000/api/createUser', users);
   }
 
+  addGroup(newGroup: GCU) {
+    return this.http.post<any>('http://localhost:3000/api/addGroup', newGroup);
+  }
+
   addChannel(newChannel: channel) {
     return this.http.post<any>('http://localhost:3000/api/addchannel', newChannel)
   }
@@ -37,5 +41,9 @@ export class CommunicateService {
 
   deleteGroup(groupId){
     return this.http.post<any>('http://localhost:3000/api/deleteGroup', {'groupId': groupId});
+  }
+
+  deleteChannel(groupId, channelId){
+    return this.http.post<any>('http://localhost:3000/api/deleteChannel', {'groupId': groupId, "channelId": channelId});
   }
 }

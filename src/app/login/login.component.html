@@ -131,9 +131,24 @@
 
   </tr>
 </table>
-<span class="btn btn-primary" [routerLink]="['/add-product']">Add new product</span>
+
 
 <br>
+<button class="open-button" (click)="openFormG()">Open add new group</button>
+<div *ngIf="formOpenG" class="form-popup" id="myForm">
+  <form action="/action_page.php" class="form-container">
+    <h1>Add new channel</h1>
+
+      <label for="groupId">group Id</label>
+      <input type="number" class="form-control" id="channelId" [(ngModel)]="groupId" name="groupId">
+
+      <label for="groupName"><b>group Name</b></label>
+      <input type="text" class="form-control" id="channelName" [(ngModel)]="groupName" name="groupName">
+
+    <button type="button" class="btn btn-primary btn-block mb-4" (click)="addGroup(groupId, groupName)">Add Group</button>
+    <button type="button" class="btn cancel" (click)="closeFormG()">Close</button>
+  </form>
+</div>
 <button type="button" class="btn btn-primary btn-block mb-4" (click)="GCU()">Show Groups/Channels/Users</button>
 
 
@@ -169,7 +184,12 @@
     </td>
     <td>
       <ul style="padding-top:20px;" *ngFor="let channels of group.channel">
-        {{channels.channelId}}, {{channels.channelName}}</ul>
+        {{channels.channelId}}, {{channels.channelName}}
+        <div>
+          <button type="button" class="btn btn-primary btn-block mb-4" (click)="deleteChannel(group.groupId, channels.channelId)">Delete Channel</button>
+        </div>
+      </ul>
+
     </td>
 
       <ul style="padding-top:20px;" *ngFor="let user of group.channel">

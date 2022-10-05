@@ -28,13 +28,16 @@ const BACKEND_URL = 'http://localhost:3000';
 export class LoginComponent implements OnInit {
 
 
-
-  formOpen = true;
+  formOpenG = false
+  formOpen = false;
   channelId: number;
   channelName: string;
   newChannel : channel;
   newChannels: newchannels;
   testChannels: channel[] = [];
+  groupId: number;
+  groupName: string;
+  newGroup: GCU;
 
   group: group[] = [];
   channel: channel[] = [];
@@ -91,11 +94,35 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  addGroup(group_id, groupName) {
+    this.newGroup = new GCU(group_id, groupName, [{channelId:null, channelName:'',user:[{userId:null,userName:'',userRole:''}]}]);
+    this.proddata.addGroup(this.newGroup).subscribe((data)=>{
+        if (data.ok == 'ok') {
+          this.GCU();
+        } else {
+          alert("duplicate group");
+        }
+    })
+  }
+
   deleteGroup(groupId){
     if (confirm("Are you sure you want to delete this group")) {
       this.proddata.deleteGroup(groupId).subscribe((data)=> {
         //this.product = data;
         if(data) {
+          this.GCU();
+        }
+
+      });
+    }
+  }
+
+  deleteChannel(groupId, channelId){
+    alert([groupId, channelId]);
+    if (confirm("Are you sure you want to delete this channel")) {
+      this.proddata.deleteChannel(groupId, channelId).subscribe((data)=> {
+        //this.product = data;
+        if(data.ok == "ok") {
           this.GCU();
         }
 
@@ -116,6 +143,14 @@ export class LoginComponent implements OnInit {
 
   closeForm() {
     this.formOpen = false;
+  }
+
+  openFormG() {
+    this.formOpenG = true;
+  }
+
+  closeFormG() {
+    this.formOpenG = false;
   }
 
 

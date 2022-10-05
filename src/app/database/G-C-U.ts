@@ -17,4 +17,23 @@ export class GCU {
       ];
     } ,
   ];
+
+  constructor(groupId: number, groupName: string, channel:[
+    {
+      channelId: number,
+      channelName: string,
+      user:[
+        {
+          userId: number,
+          userName: string,
+          userRole: string,
+        },
+      ];
+    } ,
+  ]){
+    this.groupId = groupId;
+    this.groupName = groupName;
+    this.channel = channel;
+
+  }
 }
