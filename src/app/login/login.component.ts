@@ -45,6 +45,9 @@ export class LoginComponent implements OnInit {
   user_Pwd: string;
   user_Role: string;
 
+  userNameLogin: string;
+  PwdLogin: string;
+
 
   group: group[] = [];
   channel: channel[] = [];
@@ -218,6 +221,44 @@ export class LoginComponent implements OnInit {
       }
     })
 
+  }
+
+  login(userName, userPwd) {
+    this.proddata.login(userName, userPwd).subscribe((data)=> {
+      alert(data.ok.userRole);
+      if (data.ok.userRole == 'Super Admin') {
+          this.router.navigateByUrl('/super');
+          sessionStorage.setItem('userName', data.ok.userName);
+          sessionStorage.setItem('userId', data.ok.userId);
+          sessionStorage.setItem('userPwd', data.ok.userPwd);
+          sessionStorage.setItem('userRole', data.ok.userRole);
+        } else if (data.ok.userRole == 'Group Assis') {
+          this.router.navigateByUrl('/assistant');
+          sessionStorage.setItem('userName', data.ok.userName);
+          sessionStorage.setItem('userId', data.ok.userId);
+          sessionStorage.setItem('userPwd', data.ok.userPwd);
+          sessionStorage.setItem('userRole', data.ok.userRole);
+        } else if (data.ok.userRole == 'Group Admin') {
+          this.router.navigateByUrl('/admin-user');
+          sessionStorage.setItem('userName', data.ok.userName);
+          sessionStorage.setItem('userId', data.ok.userId);
+          sessionStorage.setItem('userPwd', data.ok.userPwd);
+          sessionStorage.setItem('userRole', data.ok.userRole);
+        } else if (data.ok.userRole == 'member') {
+          this.router.navigateByUrl('/users');
+          sessionStorage.setItem('userName', data.ok.userName);
+          sessionStorage.setItem('userId', data.ok.userId);
+          sessionStorage.setItem('userPwd', data.ok.userPwd);
+          sessionStorage.setItem('userRole', data.ok.userRole);
+        } else {
+          alert("invalid user");
+        }
+    })
+  }
+
+  logout() {
+    sessionStorage.clear();
+    this.router.navigateByUrl('/login');
   }
 
 /*

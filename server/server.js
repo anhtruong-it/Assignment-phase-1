@@ -328,6 +328,7 @@ MongoClient.connect(url, {maxPoolSize: 10, useNewUrlParser: true, useUnifiedTopo
     require('./routes/api-getUser')(dbG, app);
     require('./routes/api-deleteUser')(dbG, app, ObjectID);
     require('./routes/api-updateUser')(dbG, app, ObjectID);
+    require('./routes/api-login')(dbG, app, ObjectID);
 
 
     /*

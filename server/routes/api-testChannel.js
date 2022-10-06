@@ -2,7 +2,7 @@ const { async } = require("rxjs");
 
 module.exports = function(dbG, app) {
 
-  app.get('/api/testChannel',  function(req, res) {
+  app.post('/api/testChannel',  function(req, res) {
 
 
     const collection = dbG.collection('channels');

@@ -59,4 +59,8 @@ export class CommunicateService {
     return this.http.post<any>('http://localhost:3000/api/updateUser', user);
   }
 
+  login(userName, userPwd) {
+    return this.http.post<any>('http://localhost:3000/api/login', {'userName': userName, "userPwd": userPwd});
+  }
+
 }
