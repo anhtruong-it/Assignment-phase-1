@@ -46,4 +46,8 @@ export class CommunicateService {
   deleteChannel(groupId, channelId){
     return this.http.post<any>('http://localhost:3000/api/deleteChannel', {'groupId': groupId, "channelId": channelId});
   }
+
+  getUser() {
+    return this.http.get<any>('http://localhost:3000/api/getUser');
+  }
 }

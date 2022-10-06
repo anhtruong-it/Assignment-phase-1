@@ -178,6 +178,13 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  getUser() {
+    this.proddata.getUser().subscribe((data)=> {
+      this.user = data.ok;
+    })
+
+  }
+
 /*
   logIn(){
     this.httpClient.post(BACKEND_URL + '/login', this.user).subscribe((data:any)=>{
