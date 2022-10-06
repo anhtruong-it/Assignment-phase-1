@@ -118,7 +118,36 @@
   </tr>
 
   <tr style="padding-top:20px;" *ngFor="let users of user" >
-    <td>{{users.userId}}</td>
+    <td>{{users.userId}}
+      <button type="button" class="btn btn-primary btn-block mb-4" (click)="deleteUser(users._id)">Delete user</button>
+      <div>
+      <button class="open-button" (click)="openFormU()">Update user</button>
+        <div *ngIf="formOpenU" class="form-popup" id="myForm">
+          <form action="/action_page.php" class="form-container">
+            <h1>Update user</h1>
+
+
+
+              <label for="user_Name"><b>user Name</b></label>
+              <input type="text" class="form-control" id="user_Name" [(ngModel)]="user_Name" name="user_Name">
+
+              <label for="user_Pwd"><b>user Pwd</b></label>
+              <input type="text" class="form-control" id="user_Pwd" [(ngModel)]="user_Pwd" name="user_Pwd">
+
+              <label for="user_Role"><b>user Role</b></label>
+                <select name="userRole" id="userRole" class="form-control" [(ngModel)]="user_Role" multiple>
+                  <option value="Super Admin">Super Admin</option>
+                  <option value="Group Admin">Admin</option>
+                  <option value="Group Assis">Assistant</option>
+                  <option value="member">Member</option>
+                </select>
+
+            <button type="button" class="btn btn-primary btn-block mb-4" (click)="updateUser(users._id, users.userId, user_Name, user_Pwd, user_Role)">Update</button>
+            <button type="button" class="btn cancel" (click)="closeFormU()">Close</button>
+          </form>
+        </div>
+      </div>
+    </td>
     <td>{{users.userName}}</td>
     <td>{{users.userPwd}}</td>
     <td>{{users.userRole}}</td>

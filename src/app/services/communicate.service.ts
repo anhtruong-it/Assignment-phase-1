@@ -50,4 +50,13 @@ export class CommunicateService {
   getUser() {
     return this.http.get<any>('http://localhost:3000/api/getUser');
   }
+
+  deleteUser(userId) {
+    return this.http.post<any>('http://localhost:3000/api/deleteUser', {'userId': userId});
+  }
+
+  updateUser(user: user) {
+    return this.http.post<any>('http://localhost:3000/api/updateUser', user);
+  }
+
 }

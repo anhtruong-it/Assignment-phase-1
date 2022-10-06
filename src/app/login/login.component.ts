@@ -39,6 +39,13 @@ export class LoginComponent implements OnInit {
   groupName: string;
   newGroup: GCU;
 
+  formOpenU = false
+  user_Id: number;
+  user_Name: string;
+  user_Pwd: string;
+  user_Role: string;
+
+
   group: group[] = [];
   channel: channel[] = [];
   user: user[] = [];
@@ -153,6 +160,14 @@ export class LoginComponent implements OnInit {
     this.formOpenG = false;
   }
 
+  openFormU() {
+    this.formOpenU = true;
+  }
+
+  closeFormU() {
+    this.formOpenU = false;
+  }
+
 
   createUser(event) {
     event.preventDefault();
@@ -181,6 +196,26 @@ export class LoginComponent implements OnInit {
   getUser() {
     this.proddata.getUser().subscribe((data)=> {
       this.user = data.ok;
+    })
+  }
+
+  deleteUser(userId) {
+    this.proddata.deleteUser(userId).subscribe((data)=>{
+      if (data.ok=='ok'){
+        this.getUser();
+      }
+    })
+  }
+
+  updateUser(user_Id, userId, userName, userPwd, userRole) {
+    this.newUser = new user(userId, userName, userPwd, userRole.toString());
+    this.proddata.updateUser(this.newUser).subscribe((data)=>{
+      if (data.ok=="ok"){
+        this.getUser();
+      }
+      else {
+        alert("duplicate user");
+      }
     })
 
   }

@@ -14,7 +14,6 @@ module.exports = function(dbG, app) {
     });
 
 
-    //console.log('datas: ',  datas);
 
   });
 
