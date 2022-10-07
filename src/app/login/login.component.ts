@@ -28,8 +28,12 @@ const BACKEND_URL = 'http://localhost:3000';
 export class LoginComponent implements OnInit {
 
 
+
+  userIds: number;
+
   formOpenG = false
   formOpen = false;
+  formOpenUGC = false;
   channelId: number;
   channelName: string;
   newChannel : channel;
@@ -52,6 +56,7 @@ export class LoginComponent implements OnInit {
   group: group[] = [];
   channel: channel[] = [];
   user: user[] = [];
+  userss: user[] = [];
   gcu: GCU[] = [];
 
   //add user:
@@ -59,6 +64,11 @@ export class LoginComponent implements OnInit {
   userName: string = '';
   userPwd: string = '';
   userRole: string = '';
+  group_Id: any[] = [
+    {id: Number,
+    channelId: Number,}
+  ];
+
   newUser: user;
   userobjid: string = '';
 
@@ -75,6 +85,12 @@ export class LoginComponent implements OnInit {
 
     })
     */
+    this.proddata.getUser().subscribe((data)=> {
+      this.user = data.ok;
+      this.userss = data.ok;
+      return this.user;
+
+    })
 
   }
 
@@ -82,6 +98,7 @@ export class LoginComponent implements OnInit {
 
     this.proddata.getGCU().subscribe((data)=> {
       this.gcu = data.ok;
+
     })
   }
 
@@ -171,6 +188,14 @@ export class LoginComponent implements OnInit {
     this.formOpenU = false;
   }
 
+  openFormUGC() {
+    this.formOpenUGC = true;
+  }
+
+  closeFormUGC() {
+    this.formOpenUGC = false;
+  }
+
 
   createUser(event) {
     event.preventDefault();
@@ -178,7 +203,7 @@ export class LoginComponent implements OnInit {
       alert("userId = null ");
     } else {
       //alert("ok");
-      this.newUser = new user(this.userId, this.userName, this.userPwd, this.userRole);
+      this.newUser = new user(this.userId, this.userName, this.userPwd, this.userRole, [{id:null, channelId: null}]);
       this.proddata.createUser(this.newUser).subscribe((data)=> {
         console.log(data);
         if (data.err == null) {
@@ -199,6 +224,8 @@ export class LoginComponent implements OnInit {
   getUser() {
     this.proddata.getUser().subscribe((data)=> {
       this.user = data.ok;
+      return this.user;
+
     })
   }
 
@@ -211,7 +238,7 @@ export class LoginComponent implements OnInit {
   }
 
   updateUser(user_Id, userId, userName, userPwd, userRole) {
-    this.newUser = new user(userId, userName, userPwd, userRole.toString());
+    this.newUser = new user(userId, userName, userPwd, userRole.toString(), [{id:null, channelId: null}]);
     this.proddata.updateUser(this.newUser).subscribe((data)=>{
       if (data.ok=="ok"){
         this.getUser();
@@ -220,7 +247,6 @@ export class LoginComponent implements OnInit {
         alert("duplicate user");
       }
     })
-
   }
 
   login(userName, userPwd) {
@@ -259,6 +285,21 @@ export class LoginComponent implements OnInit {
   logout() {
     sessionStorage.clear();
     this.router.navigateByUrl('/login');
+  }
+
+  addUserGC(userId, groupId, channelId) {
+
+   // alert([userId, groupId, channelId])
+    this.proddata.addUserGC(userId.toString(), groupId, channelId).subscribe((data)=>{
+
+      if (data.ok == "ok"){
+
+      }
+      else {
+        alert(data.ok);
+      }
+
+    })
   }
 
 /*

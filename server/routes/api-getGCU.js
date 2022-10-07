@@ -48,9 +48,9 @@ module.exports = function(dbG, app) {
    const GCUs = dbG.collection('GCUs');
    GCUs.find({}).toArray((err, data)=> {
 
-    console.log("GCUS: ", data);
-    data.forEach(c=>{console.log("channel: ", c.channel);})
-    console.log("---------------")
+   // console.log("GCUS: ", data);
+    //data.forEach(c=>{console.log("channel: ", c.channel);})
+    //console.log("---------------")
 
 
 

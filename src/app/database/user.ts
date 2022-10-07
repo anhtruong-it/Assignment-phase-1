@@ -6,11 +6,19 @@ export class user {
   userName: string;
   userPwd: string;
   userRole: string;
+  groupId:[
+    {
+      id: number;
+      channelId: number;
+    }
+  ];
 
-  constructor(userId: number, userName: string, userPwd: string, userRole: string) {
+
+  constructor(userId: number, userName: string, userPwd: string, userRole: string, groupId:[{id: number, channelId: number}]) {
     this.userId = userId;
     this.userName = userName;
     this.userPwd = userPwd;
     this.userRole = userRole;
+    this.groupId = groupId
   }
 }

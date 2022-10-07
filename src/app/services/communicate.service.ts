@@ -63,4 +63,8 @@ export class CommunicateService {
     return this.http.post<any>('http://localhost:3000/api/login', {'userName': userName, "userPwd": userPwd});
   }
 
+  addUserGC(userId, groupId, channelId) {
+    return this.http.post<any>('http://localhost:3000/api/addUserGC', {'userId': userId, 'groupId': groupId, 'channelId': channelId});
+  }
+
 }

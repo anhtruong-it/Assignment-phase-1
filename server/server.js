@@ -113,25 +113,93 @@ const userArray = [
     userId: 1,
     userName: 'a',
     userPwd: '1',
-    userRole: 'Super Admin'
+    userRole: 'Super Admin',
+    goupId:[
+      {
+        id: null,
+        channelId: null,
+      }
+    ]
   },
   {
     userId: 2,
     userName: 'b',
     userPwd: '2',
-    userRole: 'Group Admin'
+    userRole: 'Group Admin',
+    goupId:[
+      {
+        id: null,
+        channelId: null,
+      }
+    ]
   },
   {
     userId: 3,
     userName: 'c',
     userPwd: '3',
-    userRole: 'Group Assis'
+    userRole: 'Group Assis',
+    goupId:[
+      {
+        id: null,
+        channelId: null,
+      }
+    ]
   },
   {
     userId: 4,
     userName: 'd',
     userPwd: '4',
-    userRole: 'member'
+    userRole: 'member',
+    goupId:[
+      {
+        id: null,
+        channelId: null,
+      }
+    ]
+  },
+  {
+    userId: 5,
+    userName: 'e',
+    userPwd: '5',
+    userRole: 'member',
+    goupId:[
+      {
+        id: 1,
+        channelId: 1,
+      }
+    ]
+  },
+  {
+    userId: 6,
+    userName: 'h',
+    userPwd: '6',
+    userRole: 'member',
+    goupId:[
+      {
+        id: 1,
+        channelId: 1,
+      },
+      {
+        id: 4,
+        channelId: 4,
+      },
+    ]
+  },
+  {
+    userId: 7,
+    userName: 'g',
+    userPwd: '7',
+    userRole: 'member',
+    goupId:[
+      {
+        id: 1,
+        channelId: 1,
+      },
+      {
+        id: 3,
+        channelId: 3,
+      },
+    ]
   }
 
 ]
@@ -329,6 +397,7 @@ MongoClient.connect(url, {maxPoolSize: 10, useNewUrlParser: true, useUnifiedTopo
     require('./routes/api-deleteUser')(dbG, app, ObjectID);
     require('./routes/api-updateUser')(dbG, app, ObjectID);
     require('./routes/api-login')(dbG, app, ObjectID);
+    require('./routes/api-addUsertoGroupChannnel')(dbG, app, ObjectID);
 
 
     /*

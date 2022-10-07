@@ -8,7 +8,8 @@ module.exports = function(dbG, app) {
     const collection = dbG.collection('users');
     collection.find({}).toArray((err, data)=> {
       if (err) throw err;
-      console.log("users: ", data);
+      //console.log("users: ", data);
+
       res.send({"ok":data});
 
     });
