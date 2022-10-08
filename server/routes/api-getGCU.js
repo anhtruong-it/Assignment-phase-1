@@ -46,7 +46,7 @@ module.exports = function(dbG, app) {
 
 
    const GCUs = dbG.collection('GCUs');
-   GCUs.find({}).toArray((err, data)=> {
+   GCUs.find({}).sort({groupId:1}).toArray((err, data)=> {
 
    // console.log("GCUS: ", data);
     //data.forEach(c=>{console.log("channel: ", c.channel);})

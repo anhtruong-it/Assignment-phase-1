@@ -20,93 +20,10 @@
 
 
 
-<br>
-<!--
-  <ul>
-    <li *ngFor="let item of userList; let k = index" [attr.data-index]="k">
-      <p>Group: {{item.group}}</p>
-      <button type="button" class="btn btn-primary btn-block mb-4" (click)="delGroup(item.group)">Delete group</button>
-      <button type="button" class="btn btn-primary btn-block mb-4" (click)="createChannel(item.group)">Creat Channel</button>
-        <ul>
-          <li *ngFor="let item1 of item.channel let j = index" [attr.data-index]="j">
-            <p>Channel: {{item1.nameChannel}}</p>
-            <button type="button" class="btn btn-primary btn-block mb-4" (click)="delChannel(item.group, item1.nameChannel)">Delete channel</button>
-
-            <ul>
-              Users:
-              <li *ngFor="let item2 of item1.users let j = index" [attr.data-index]="j">
-                {{item2.username}}
-              </li>
-            </ul>
-          </li>
-        </ul>
-
-      </li>
-  </ul>
-  -->
-
-  <br>
 
 
 
-<br>
-<!--
-<ul>
-  <li *ngFor="let item of userList; let i = index" [attr.data-index]="i">
-      {{item.username}}, {{item.email}}, {{item.password}}, {{item.id}}, {{item.role}}
-      <input hidden type="text" id="form2Example1" class="form-control" [(ngModel)]="item.username" name="username"/>
-      <label class="form-label" for="form2Example1">Role:</label>
-      <select name="role" id="form2Example1" class="form-control" [(ngModel)]="item.role" multiple>
-        <option value="Super Admin">Super Admin</option>
-        <option value="Group Admin">Admin</option>
-        <option value="Group Assis">Assistant</option>
-        <option value="member">Member</option>
-      </select>
-      </li>
-</ul>-->
 
-<!--
-<div class="container">
-  <table class="table">
-    <tr>
-      <th>Group ID</th>
-      <th>Group Name</th>
-    </tr>
-
-    <tr style="padding-top:20px;" *ngFor="let groups of group" >
-      <td>{{groups.groupId}}</td>
-      <td>{{groups.groupName}}</td>
-      -->
-
-     <!-- <td><span class="btn btn-primary" [routerLink]="['/update-product', groups._id]"><i class="fa fa-edit"></i> Edit</span>
-          &nbsp; <span class="btn btn=primary" (click)="deleteproduct(groups._id)"><i class="fa fa-trash"> Delete</i></span>
-          &nbsp;  <span class="btn btn-primary" (click)="getitems(products._id)"><i class="fa fa-edit"></i> Edit second</span>
-
-      </td>
-
-    </tr>
-  </table>
-  <br>
-  <table class="table">
-    <tr>
-      <th>Channel ID</th>
-      <th>Channel Name</th>
-    </tr>
-
-    <tr style="padding-top:20px;" *ngFor="let channels of channel" >
-      <td>{{channels.channelId}}</td>
-      <td>{{channels.channelName}}</td>-->
-
-     <!-- <td><span class="btn btn-primary" [routerLink]="['/update-product', groups._id]"><i class="fa fa-edit"></i> Edit</span>
-          &nbsp; <span class="btn btn=primary" (click)="deleteproduct(groups._id)"><i class="fa fa-trash"> Delete</i></span>
-          &nbsp;  <span class="btn btn-primary" (click)="getitems(products._id)"><i class="fa fa-edit"></i> Edit second</span>
-
-      </td>
-
-    </tr>
-  </table>
-  <br>
- </div>-->
 
  <table class="table">
   <tr>
@@ -153,7 +70,7 @@
     <td>{{users.userRole}}</td>
     <td>
       <ul style="padding-top:20px;" *ngFor="let GC of users.groupId">
-        {{GC.id}} / {{GC.channelId}}
+        group: {{GC.id}} / channel: {{GC.channelId}}
       </ul>
 
     </td>
@@ -229,7 +146,7 @@
 
       <ul style="padding-top:20px;" *ngFor="let user of group.channel">
         <td style="padding-top:20px;" *ngFor="let users of user.user">
-          {{users.userId}},
+          {{users.userId}}, {{users.userName}}
         </td>
         <div>
           <button class="open-button" (click)="openFormUGC()">Add user to G/C</button>

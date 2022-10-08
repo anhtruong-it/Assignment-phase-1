@@ -30,6 +30,7 @@ export class LoginComponent implements OnInit {
 
 
   userIds: number;
+  user_Ids: number;
 
   formOpenG = false
   formOpen = false;
@@ -288,12 +289,14 @@ export class LoginComponent implements OnInit {
   }
 
   addUserGC(userId, groupId, channelId) {
-
-   // alert([userId, groupId, channelId])
+   // this.user_Ids = userId.toString();
+   // alert(userId)
     this.proddata.addUserGC(userId.toString(), groupId, channelId).subscribe((data)=>{
 
       if (data.ok == "ok"){
-
+        alert("user added");
+        this.GCU();
+        this.getUser();
       }
       else {
         alert(data.ok);

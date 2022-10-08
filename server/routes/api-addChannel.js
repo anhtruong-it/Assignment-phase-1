@@ -24,7 +24,7 @@ module.exports = function(dbG, app, ObjectID) {
           channelId: newC.channelId,
           channelName: newC.channelName,
           user: [
-            {userId:'', userName:'', userRole:''},
+
           ]
         }
         GCUs.find({"groupId":newC.groupID}).toArray((err, data)=> {
@@ -34,7 +34,8 @@ module.exports = function(dbG, app, ObjectID) {
          })
          newA[0].push(dict);
          console.log("newA: ", newA[0]);
-         GCUs.update({"groupId":newC.groupID, "groupName": groupName}, {$set:{"channel":newA[0]}}, ()=>{
+         GCUs.updateOne({"groupId":newC.groupID, "groupName": groupName}, {$set:{"channel":newA[0]}}, ()=>{
+          //console.log(data);
           GCUs.find({}).toArray((err, datas)=>{
             res.send({'ok':"ok"});
           })

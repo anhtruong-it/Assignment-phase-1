@@ -114,55 +114,35 @@ const userArray = [
     userName: 'a',
     userPwd: '1',
     userRole: 'Super Admin',
-    goupId:[
-      {
-        id: null,
-        channelId: null,
-      }
-    ]
+    groupId:[]
   },
   {
     userId: 2,
     userName: 'b',
     userPwd: '2',
     userRole: 'Group Admin',
-    goupId:[
-      {
-        id: null,
-        channelId: null,
-      }
-    ]
+    groupId:[]
   },
   {
     userId: 3,
     userName: 'c',
     userPwd: '3',
     userRole: 'Group Assis',
-    goupId:[
-      {
-        id: null,
-        channelId: null,
-      }
-    ]
+    groupId:[]
   },
   {
     userId: 4,
     userName: 'd',
     userPwd: '4',
     userRole: 'member',
-    goupId:[
-      {
-        id: null,
-        channelId: null,
-      }
-    ]
+    groupId:[]
   },
   {
     userId: 5,
     userName: 'e',
     userPwd: '5',
     userRole: 'member',
-    goupId:[
+    groupId:[
       {
         id: 1,
         channelId: 1,
@@ -174,13 +154,13 @@ const userArray = [
     userName: 'h',
     userPwd: '6',
     userRole: 'member',
-    goupId:[
+    groupId:[
       {
         id: 1,
         channelId: 1,
       },
       {
-        id: 4,
+        id: 1,
         channelId: 4,
       },
     ]
@@ -190,13 +170,13 @@ const userArray = [
     userName: 'g',
     userPwd: '7',
     userRole: 'member',
-    goupId:[
+    groupId:[
       {
         id: 1,
         channelId: 1,
       },
       {
-        id: 3,
+        id: 2,
         channelId: 3,
       },
     ]
@@ -204,84 +184,7 @@ const userArray = [
 
 ]
 
-/*
-const GCUArray = [
-  {
-    groupID:"dsdsa",
-    channel:[
-      {
-        channelId:'das',
-        user: [
-          {
-            userId:'427'
-          },
-          {
-            userId:'5678'
-          },
-        ]
-      },
-      {
-        channelId:'fgh',
-        user: [
-          {
-            userId:'427fds'
-          },
-          {
-            userId:'5678fds'
-          },
-        ]
-      },
-    ]
-  },
-  {
-    groupID:"dsdsafsds",
-    channel:[
-      {
-        channelId:'dak;ls',
-        user: [
-          {
-            userId:'12'
-          },
-          {
-            userId:'qsa'
-          },
-          {
-            userId:'5464'
-          }
-        ]
-      },
-      {
-        channelId:'dasvcvx',
-        user: [
-          {
-            userId:'asdas'
-          },
-          {
-            userId:'dasdas'
-          },
-          {
-            userId:'dasfs'
-          },
-        ]
-      },
-      {
-        channelId:'dasvcvx',
-        user: [
-          {
-            userId:'asdas'
-          },
-          {
-            userId:'dasdas'
-          },
-          {
-            userId:'dasfs'
-          },
-        ]
-      },
-    ]
-  },
-]
-*/
+
 
 const GCUArray = [
   {
@@ -293,14 +196,19 @@ const GCUArray = [
         channelName: "channel 01",
         user: [
           {
-            userId: "",
-            userName: "",
-            userRole: "",
+            userId: 5,
+            userName: "e",
+            userRole: "member",
           },
           {
-            userId: "",
-            userName: "",
-            userRole: "",
+            userId: 6,
+            userName: "h",
+            userRole: "member",
+          },
+          {
+            userId: 7,
+            userName: "g",
+            userRole: "member",
           }
         ]
       },
@@ -309,9 +217,9 @@ const GCUArray = [
         channelName: "channel 04",
         user: [
           {
-            userId: "",
-            userName: "",
-            userRole: "",
+            userId: 6,
+            userName: "h",
+            userRole: "member",
           }
         ]
       },
@@ -326,9 +234,9 @@ const GCUArray = [
         channelName: "channel 03",
         user: [
           {
-            userId: "",
-            userName: "",
-            userRole: "",
+            userId: 7,
+            userName: "g",
+            userRole: "member",
           }
         ]
       },

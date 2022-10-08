@@ -6,7 +6,7 @@ module.exports = function(dbG, app) {
 
 
     const collection = dbG.collection('users');
-    collection.find({}).toArray((err, data)=> {
+    collection.find({}).sort({userId:1}).toArray((err, data)=> {
       if (err) throw err;
       //console.log("users: ", data);
 
