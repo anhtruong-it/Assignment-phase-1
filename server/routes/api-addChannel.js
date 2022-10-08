@@ -33,6 +33,7 @@ module.exports = function(dbG, app, ObjectID) {
           groupName = c.groupName
          })
          newA[0].push(dict);
+         newA[0].sort((a, b)=> a.channelId - b.channelId);
          console.log("newA: ", newA[0]);
          GCUs.updateOne({"groupId":newC.groupID, "groupName": groupName}, {$set:{"channel":newA[0]}}, ()=>{
           //console.log(data);

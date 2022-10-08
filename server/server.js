@@ -223,6 +223,24 @@ const GCUArray = [
           }
         ]
       },
+      {
+        channelId: 5,
+        channelName: "channel 05",
+        user: [
+
+        ]
+      },
+      {
+        channelId: 6,
+        channelName: "channel 06",
+        user: [
+          {
+            userId: 6,
+            userName: "h",
+            userRole: "member",
+          }
+        ]
+      },
     ]
   },
   {
@@ -306,6 +324,8 @@ MongoClient.connect(url, {maxPoolSize: 10, useNewUrlParser: true, useUnifiedTopo
     require('./routes/api-updateUser')(dbG, app, ObjectID);
     require('./routes/api-login')(dbG, app, ObjectID);
     require('./routes/api-addUsertoGroupChannnel')(dbG, app, ObjectID);
+    require('./routes/api-removeUser')(dbG, app, ObjectID);
+
 
 
     /*

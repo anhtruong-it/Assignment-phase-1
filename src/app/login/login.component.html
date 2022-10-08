@@ -147,6 +147,8 @@
       <ul style="padding-top:20px;" *ngFor="let user of group.channel">
         <td style="padding-top:20px;" *ngFor="let users of user.user">
           {{users.userId}}, {{users.userName}}
+          <button type="button" class="btn btn-primary btn-block mb-4" (click)="removeUser(users.userId, group.groupId, user.channelId)">remove user </button>
+
         </td>
         <div>
           <button class="open-button" (click)="openFormUGC()">Add user to G/C</button>

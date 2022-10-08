@@ -67,4 +67,8 @@ export class CommunicateService {
     return this.http.post<any>('http://localhost:3000/api/addUserGC', {'userId': userId, 'groupId': groupId, 'channelId': channelId});
   }
 
+  removeUser(userId, groupId, channelId) {
+    return this.http.post<any>('http://localhost:3000/api/removeUser', {'userId': userId, 'groupId': groupId, 'channelId': channelId});
+  }
+
 }

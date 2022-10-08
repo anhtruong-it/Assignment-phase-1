@@ -305,6 +305,16 @@ export class LoginComponent implements OnInit {
     })
   }
 
+  removeUser(userId, groupId, channelId) {
+    //alert([userId, groupId, channelId]);
+    this.proddata.removeUser(userId, groupId, channelId).subscribe((data)=>{
+      if (data.ok=='ok'){
+        alert("user removed");
+        this.GCU();
+      }
+    })
+  }
+
 /*
   logIn(){
     this.httpClient.post(BACKEND_URL + '/login', this.user).subscribe((data:any)=>{
