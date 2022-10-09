@@ -76,8 +76,8 @@ module.exports = function(dbG, app, ObjectID) {
 
                   const channel = dbG.collection('channels');
                   channel.find({channelId}).toArray((err, data4)=>{
-                    channelName = data4[0].channelName;
-                    console.log("channelName: ", channelName);
+                   // channelName = data4[0];
+                    //console.log("channelName: ", channelName);
                     const GCUs = dbG.collection('GCUs');
                     GCUs.find({groupId: groupId}).toArray((err, data5)=>{
                       groupName = data5[0].groupName;

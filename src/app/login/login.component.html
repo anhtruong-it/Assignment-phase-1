@@ -36,7 +36,7 @@
 
   <tr style="padding-top:20px;" *ngFor="let users of user" >
     <td>{{users.userId}}
-      <button type="button" class="btn btn-primary btn-block mb-4" (click)="deleteUser(users._id)">Delete user</button>
+      <button type="button" class="btn btn-primary btn-block mb-4" (click)="deleteUser(users.userId)">Delete user</button>
       <div>
       <button class="open-button" (click)="openFormU()">Update user</button>
         <div *ngIf="formOpenU" class="form-popup" id="myForm">

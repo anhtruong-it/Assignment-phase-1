@@ -232,9 +232,25 @@ export class LoginComponent implements OnInit {
 
   deleteUser(userId) {
     this.proddata.deleteUser(userId).subscribe((data)=>{
-      if (data.ok=='ok'){
-        this.getUser();
+      if (data.ok != false){
+        if (data.ok[1].length > 0){
+          for(let g of data.ok[1]){
+            alert("enter to remove this user from Channel!");
+            //this.GCU();
+            this.proddata.removeUser(data.ok[0], g.id, g.channelId).subscribe((data1)=>{
+              if (data1.ok=='ok'){
+                alert("user removed");
+                this.getUser();
+                //this.GCU();
+              }
+            })
+          }
+        } else {
+          this.getUser();
+        }
       }
+
+
     })
   }
 
@@ -310,6 +326,11 @@ export class LoginComponent implements OnInit {
     this.proddata.removeUser(userId, groupId, channelId).subscribe((data)=>{
       if (data.ok=='ok'){
         alert("user removed");
+        this.proddata.updateChannelUser(userId, groupId, channelId).subscribe((data1)=>{
+          if (data1.ok == "ok") {
+            this.getUser();
+          }
+        })
         this.GCU();
       }
     })

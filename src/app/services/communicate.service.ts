@@ -71,4 +71,8 @@ export class CommunicateService {
     return this.http.post<any>('http://localhost:3000/api/removeUser', {'userId': userId, 'groupId': groupId, 'channelId': channelId});
   }
 
+  updateChannelUser(userId, groupId, channelId) {
+    return this.http.post<any>('http://localhost:3000/api/updateChannelUser', {'userId': userId, 'groupId': groupId, 'channelId': channelId});
+  }
+
 }

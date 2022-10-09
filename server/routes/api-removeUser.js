@@ -13,7 +13,7 @@ module.exports = function(dbG, app, ObjectID) {
     collection.find({groupId}).toArray((err, data) =>{
       if (err) throw err;
       console.log("GCUs: ", data[0]);
-      var groupName = data[0].groupName;
+      var groupName = data[0];
       var i = 0;
       newA = []
       for(let c of data[0].channel) {
@@ -38,12 +38,12 @@ module.exports = function(dbG, app, ObjectID) {
           break;
         }
       }
-     // console.log(data[0].channel[i].user[j]);
+      console.log(data[0].channel[i].user[j]);
       data[0].channel[i].user.splice(j,1);
-      console.log('channel: ', data[0].channel[i]);
-      console.log('newA: ', data[0]);
-      console.log('newA2: ', data[0].channel);
-      collection.updateOne({groupId:Number(groupId)}, {$set:{groupName: groupName, channel: data[0].channel}}, (err, data)=>{
+     // console.log('channel: ', data[0].channel[i]);
+     // console.log('newA: ', data[0]);
+    //  console.log('newA2: ', data[0].channel);
+      collection.updateOne({groupId:Number(groupId)}, {$set:{groupName: groupName.groupName, channel: data[0].channel}}, (err, data)=>{
         console.log(data);
         res.send({"ok":"ok"});
       })
