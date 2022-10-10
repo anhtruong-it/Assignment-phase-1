@@ -7,6 +7,7 @@ import { user } from '../database/user';
 import { GCU } from '../database/G-C-U';
 import { newchannels } from '../database/channels';
 
+
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'applicaiton/json'})
 };
@@ -75,23 +76,53 @@ export class LoginComponent implements OnInit {
 
   // end
 
+
+  messagecontent:string="";
+  messages:string[] = [];
+  ioConnection:any;
+  joinU = false;
+
   constructor(private router:Router, private httpClient: HttpClient, private proddata: CommunicateService) { }
 
   ngOnInit(): void {
-    /*
-    this.proddata.getlist().subscribe((data)=> {
-      this.group = data.ok[0];
-      this.channel = data.ok[1];
-      this.user = data.ok[2];
 
-    })
-    */
     this.proddata.getUser().subscribe((data)=> {
       this.user = data.ok;
       this.userss = data.ok;
       return this.user;
 
     })
+
+    /*
+    if (this.joinU == true) {
+      this.userJoin();
+    }
+    */
+
+
+
+  }
+
+  join() {
+    this.joinU = true;
+    //this.userJoin();
+
+
+  }
+
+  userJoin() {
+    this.proddata.initSocket();
+    this.proddata.getMessage().subscribe(m => {this.messages.push(m);});
+  }
+
+  chat(){
+    if(this.messagecontent){
+      this.proddata.send(this.messagecontent);
+      this.messagecontent="";
+
+    }else {
+      console.log("no message");
+    }
 
   }
 
@@ -296,6 +327,7 @@ export class LoginComponent implements OnInit {
         } else {
           alert("invalid user");
         }
+        this.userJoin();
     })
   }
 
@@ -335,6 +367,9 @@ export class LoginComponent implements OnInit {
       }
     })
   }
+
+
+
 
 /*
   logIn(){

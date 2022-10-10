@@ -1,17 +1,44 @@
-import { Injectable } from '@angular/core';
+
 import { HttpClient } from '@angular/common/http';
 import { group } from '../database/group';
 import { channel } from '../database/channel';
 import { user } from '../database/user';
 import { GCU } from '../database/G-C-U';
-import {newchannels} from '../database/channels'
+import {newchannels} from '../database/channels';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import io from 'socket.io-client';
+const SERVER_URL = 'http://localhost:3000';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommunicateService {
 
+  private socket;
+
   constructor(private http: HttpClient) { }
+
+
+  initSocket(){
+    this.socket = io(SERVER_URL);
+    return ()=>{this.socket.disconnect();}
+  }
+
+  send(message: string){
+    this.socket.emit('message', message);
+  }
+
+  getMessage(){
+    return Observable.create((observer)=>{
+      this.socket.on('message', (message)=>{
+        observer.next(message);
+      });
+    });
+    //this.socket.on('message', (message)=>next(message));
+  }
+
 
   getlist() {
     return this.http.get<any>('http://localhost:3000/api/getlist');

@@ -10,31 +10,13 @@ const server = require('./listen.js');
 app.use(cors());
 app.use(bodyParser.json());
 const url = 'mongodb://localhost:27017';
-
-/*
-const docArray = [
-  {
-    groupId: 1,
-    groupName: "group 1",
-    channel:[
-      {
-        channelId: 1,
-        chanelName: "channel 1",
-      }
-    ]
-  },
-  {
-    groupId: 2,
-    groupName: "group number 2",
-    channel:[
-      {
-        channelId: 1,
-        chanelName: "channel number 1",
-      }
-    ]
+const io = require('socket.io')(http, {
+  cors: {
+    origin: "http://localhost:4200",
+    methods: ["GET", "POST"],
   }
-]
-*/
+});
+const sockets = require('./socket.js');
 
 const groupArray = [
   {
@@ -324,15 +306,8 @@ MongoClient.connect(url, {maxPoolSize: 10, useNewUrlParser: true, useUnifiedTopo
 
 
 
-    /*
-    require('./routes/api-add.js')(db, app);
-    require('./routes/api-prodcount.js')(db, app);
-    require('./routes/api-validid.js')(db, app);
-    require('./routes/api-getlist.js')(db, app);
-    require('./routes/api-getitem.js')(db, app, ObjectID);
-    require('./routes/api-update.js')(db, app, ObjectID);
-    require('./routes/api-deleteitem.js')(db, app, ObjectID);
-    */
+    sockets.connect(io, PORT);
+
     server.listen(http, PORT);
 
 
