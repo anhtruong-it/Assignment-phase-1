@@ -7,17 +7,12 @@ import { user } from '../database/user';
 import { GCU } from '../database/G-C-U';
 import { newchannels } from '../database/channels';
 
-
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'applicaiton/json'})
 };
 
-
-
 // for Angular http methods
-import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-
 
 const BACKEND_URL = 'http://localhost:3000';
 
@@ -27,6 +22,8 @@ const BACKEND_URL = 'http://localhost:3000';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+
+  isLogin = true;
 
 
 
@@ -76,32 +73,78 @@ export class LoginComponent implements OnInit {
 
   // end
 
+  userstore:string='';
+  usernamechat:string='';
 
+  channels:[];
+
+
+  private socket;
   messagecontent:string="";
   messages:string[] = [];
+  rooms=[];
+  roomslist:string="";
+  roomnotice:string="";
+  currentroom:string="";
+  isinRoom= false;
+  newroom:string="";
+  numusers:number=0;
+
+
   ioConnection:any;
   joinU = false;
 
   constructor(private router:Router, private httpClient: HttpClient, private proddata: CommunicateService) { }
 
   ngOnInit(): void {
+    /*
+    this.userstore = sessionStorage.getItem('userName');
 
     this.proddata.getUser().subscribe((data)=> {
       this.user = data.ok;
       this.userss = data.ok;
       return this.user;
-
     })
-
-    /*
-    if (this.joinU == true) {
-      this.userJoin();
-    }
     */
-
-
-
+   //this.GCU();
   }
+
+  login(userName, userPwd) {
+    this.proddata.login(userName, userPwd).subscribe((data)=> {
+      alert(data.ok.userRole);
+
+      if (data.ok.userRole == 'Super Admin') {
+          this.router.navigateByUrl('/super');
+          this.isLogin = false;
+          sessionStorage.setItem('userName', data.ok.userName);
+          sessionStorage.setItem('userId', data.ok.userId);
+          sessionStorage.setItem('userPwd', data.ok.userPwd);
+          sessionStorage.setItem('userRole', data.ok.userRole);
+        } else if (data.ok.userRole == 'Group Assis') {
+          this.router.navigateByUrl('/assistant');
+          sessionStorage.setItem('userName', data.ok.userName);
+          sessionStorage.setItem('userId', data.ok.userId);
+          sessionStorage.setItem('userPwd', data.ok.userPwd);
+          sessionStorage.setItem('userRole', data.ok.userRole);
+        } else if (data.ok.userRole == 'Group Admin') {
+          this.router.navigateByUrl('/admin-user');
+          sessionStorage.setItem('userName', data.ok.userName);
+          sessionStorage.setItem('userId', data.ok.userId);
+          sessionStorage.setItem('userPwd', data.ok.userPwd);
+          sessionStorage.setItem('userRole', data.ok.userRole);
+        } else if (data.ok.userRole == 'member') {
+          this.router.navigateByUrl('/users');
+          sessionStorage.setItem('userName', data.ok.userName);
+          sessionStorage.setItem('userId', data.ok.userId);
+          sessionStorage.setItem('userPwd', data.ok.userPwd);
+          sessionStorage.setItem('userRole', data.ok.userRole);
+        } else {
+          alert("invalid user");
+        }
+    })
+  }
+
+
 
   join() {
     this.joinU = true;
@@ -111,14 +154,60 @@ export class LoginComponent implements OnInit {
   }
 
   userJoin() {
-    this.proddata.initSocket();
-    this.proddata.getMessage().subscribe(m => {this.messages.push(m);});
+
+    this.proddata.initSocket(sessionStorage.getItem('userRole'));
+    this.proddata.getMessage((m)=>{
+
+      this.usernamechat = m[1];
+    //  alert(this.userstore);
+      this.messages.push(m)});
+      alert(this.channels);
+    this.proddata.reqroomList(this.channels);
+    this.proddata.getroomList((msg)=>{ this.rooms = JSON.parse(msg)});
+    this.proddata.notice((msg)=>{ this.roomnotice = msg});
+    this.proddata.joined((msg)=>{ this.currentroom = msg
+      if(this.currentroom != ""){
+        this.isinRoom = true;
+      }else{
+        this.isinRoom = false;
+      }
+    });
   }
 
-  chat(){
-    if(this.messagecontent){
-      this.proddata.send(this.messagecontent);
-      this.messagecontent="";
+  joinroom(){
+    alert(this.roomslist);
+    this.proddata.joinroom(this.roomslist);
+    this.proddata.reqnumusers(this.roomslist);
+    this.proddata.getnumusers((res)=>{this.numusers = res});
+  }
+
+  clearnotice() {
+    this.roomnotice = "";
+  }
+
+  leaveroom() {
+    this.proddata.leaveroom(this.currentroom);
+    this.proddata.reqnumusers(this.currentroom);
+    this.proddata.getnumusers((res)=>{ this.numusers = res});
+    this.roomslist = null;
+    this.currentroom ="";
+    this.isinRoom = false;
+    this.numusers = 0;
+    this.roomnotice ="";
+    this.messages = [];
+  }
+
+  createroom() {
+   // this.proddata.createroom(this.newroom);
+   // this.proddata.reqroomList();
+  //  this.newroom ="";
+  }
+
+  chat(messagecontent){
+    if(messagecontent){
+      this.messagecontent = messagecontent;
+      this.proddata.sendMessage([this.messagecontent, this.userstore]);
+      this.messagecontent=null;
 
     }else {
       console.log("no message");
@@ -130,6 +219,10 @@ export class LoginComponent implements OnInit {
 
     this.proddata.getGCU().subscribe((data)=> {
       this.gcu = data.ok;
+      this.proddata.getChannels().subscribe((data1)=>{
+        this.channels = data1.ok;
+       // alert(this.channels);
+      })
 
     })
   }
@@ -194,6 +287,10 @@ export class LoginComponent implements OnInit {
       this.testChannels = data.ok;
 
     })
+  }
+
+  getChannels(){
+
   }
 
   openForm() {
@@ -297,44 +394,8 @@ export class LoginComponent implements OnInit {
     })
   }
 
-  login(userName, userPwd) {
-    this.proddata.login(userName, userPwd).subscribe((data)=> {
-      alert(data.ok.userRole);
-      if (data.ok.userRole == 'Super Admin') {
-          this.router.navigateByUrl('/super');
-          sessionStorage.setItem('userName', data.ok.userName);
-          sessionStorage.setItem('userId', data.ok.userId);
-          sessionStorage.setItem('userPwd', data.ok.userPwd);
-          sessionStorage.setItem('userRole', data.ok.userRole);
-        } else if (data.ok.userRole == 'Group Assis') {
-          this.router.navigateByUrl('/assistant');
-          sessionStorage.setItem('userName', data.ok.userName);
-          sessionStorage.setItem('userId', data.ok.userId);
-          sessionStorage.setItem('userPwd', data.ok.userPwd);
-          sessionStorage.setItem('userRole', data.ok.userRole);
-        } else if (data.ok.userRole == 'Group Admin') {
-          this.router.navigateByUrl('/admin-user');
-          sessionStorage.setItem('userName', data.ok.userName);
-          sessionStorage.setItem('userId', data.ok.userId);
-          sessionStorage.setItem('userPwd', data.ok.userPwd);
-          sessionStorage.setItem('userRole', data.ok.userRole);
-        } else if (data.ok.userRole == 'member') {
-          this.router.navigateByUrl('/users');
-          sessionStorage.setItem('userName', data.ok.userName);
-          sessionStorage.setItem('userId', data.ok.userId);
-          sessionStorage.setItem('userPwd', data.ok.userPwd);
-          sessionStorage.setItem('userRole', data.ok.userRole);
-        } else {
-          alert("invalid user");
-        }
-        this.userJoin();
-    })
-  }
 
-  logout() {
-    sessionStorage.clear();
-    this.router.navigateByUrl('/login');
-  }
+
 
   addUserGC(userId, groupId, channelId) {
    // this.user_Ids = userId.toString();
@@ -371,88 +432,6 @@ export class LoginComponent implements OnInit {
 
 
 
-/*
-  logIn(){
-    this.httpClient.post(BACKEND_URL + '/login', this.user).subscribe((data:any)=>{
-      if (data.ok != false) {
-        this.user.valid = 'yes';
-        sessionStorage.setItem('username', this.user.username);
-        sessionStorage.setItem('role', data.ok);
-        sessionStorage.setItem('valid', this.user.valid);
-        let role = sessionStorage.getItem('role');
-        alert(role);
-        if (role == "Super Admin") {
-          this.router.navigateByUrl("/super");
-        } else if (role == "Group Admin") {
-          this.router.navigateByUrl("/admin-user");
-        } else if (role == "Group Assis") {
-          this.router.navigateByUrl("/assistant");
-        } else {
-          this.router.navigateByUrl("/users");
-        }
-      } else {
-        alert('Sorry, username or password is not valid');
-      }
-    });
-  }
-
-  delChannel(a:any, b:any) {
-    this.groupDetail.group = a;
-    this.groupDetail.channel = b;
-    this.httpClient.post(BACKEND_URL + '/delChannel', this.groupDetail).subscribe((data:any)=>{
-      if (data.ok != false) {
-       alert("Channel deleted");
-       this.showGC();
-      } else {
-        alert('show error');
-      }
-    });
-  }
-
-  showGC(){
-    this.httpClient.post(BACKEND_URL + '/showGC','').subscribe((data:any)=>{
-       if (data.ok != false) {
-        this.userList = data.ok;
-       } else {
-         alert('show error');
-       }
-     });
-  }
-
-  createChannel(a:any) {
-    this.groupDetail.group = a;
-    this.httpClient.post(BACKEND_URL + '/createChannel', this.groupDetail).subscribe((data:any)=>{
-      if (data.ok != false) {
-        alert("channel created");
-        this.showGC();
-      } else {
-        alert('show error');
-      }
-    });
-  }
-
-  createGroup() {
-    this.httpClient.post(BACKEND_URL + '/createGroup','').subscribe((data:any)=>{
-      if (data.ok != false) {
-        alert("group created");
-        this.showGC();
-      } else {
-        alert('show error');
-      }
-    });
-  }
-
-  delGroup(a:any) {
-    this.groupDetail.group = a;
-    this.httpClient.post(BACKEND_URL + '/delGroup',this.groupDetail).subscribe((data:any)=>{
-      if (data.ok != false) {
-       alert("group deleted");
-       this.showGC();
-      } else {
-        alert('show error');
-      }
-    });
-  }*/
 
 }
 

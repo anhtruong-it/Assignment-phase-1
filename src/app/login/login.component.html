@@ -1,5 +1,6 @@
+<div *ngIf="isLogin">
 <form>
-
+<h1>LOG IN</h1>
   <div class="form-outline mb-4">
     <label class="form-label" for="form2Example1">Username</label>
     <input type="text" id="form2Example1" class="form-control" [(ngModel)]="userNameLogin" name="userNameLogin"/>
@@ -15,7 +16,8 @@
 
   <button type="button" class="btn btn-primary btn-block mb-4" (click)="login(userNameLogin, PwdLogin)">Sign in</button>
 </form>
-<button type="button" class="btn btn-primary btn-block mb-4" (click)="logout()">LogOut</button>
+</div>
+
 
 
 
@@ -276,6 +278,7 @@
 
 <br>
 <br>
+<!--
 <div class="container">
   <form>
     <div class="form-group">
@@ -292,6 +295,40 @@
 <li *ngFor="let m of messages">{{m}}</li>
 
 <button type="button" class="btn btn-primary btn-block mb-4" (click)="join()"> users join</button>
+-->
 
+<div class="container">
+  <form>
+    <div class="form-group" *ngIf="isinRoom">
+      <label for for="messagecontent">New message</label>
+      <input type="text" [(ngModel)]="messagecontent" name="messagecontent" id="messagecontent" class="form-control"/>
+    </div>
+    <div class="form-group">
+      <button *ngIf="isinRoom" (click)="chat(messagecontent)" class="btn btn-primary">Chat</button> &nbsp;
+
+      <button *ngIf="!isinRoom" (click)="joinroom()" class="btn btn-primary">Join</button> &nbsp;
+
+      <button *ngIf="isinRoom" (click)="leaveroom()" class="btn btn-primary">Leave</button>
+
+
+    </div>
+    <select [(ngModel)]="roomslist" name="roomlist">
+      <option [value]="null">Select Room</option>
+      <option *ngFor="let room of rooms">
+        {{room}}
+      </option>
+    </select><br><br>
+    <label for="newroom">New Room</label>
+    <input type="text" [(ngModel)]="newroom" name="newroom" id="newroom" class="form-control"/>
+    <button (click)="createroom()" class="btn btn-primary" >Create New Room</button>
+  </form>
+  <h3>Notices</h3>
+  {{roomnotice}}<br>
+  <button (click)="clearnotice()" class="btn btn-primary">Clear Notice</button><br/>
+  <h3>Chat Messages for {{currentroom}} - {{numusers}} Active Users</h3>
+  <ul>
+    <li *ngFor="let message of messages">(user: {{message[1]}}): {{message[0]}}</li>
+  </ul>
+</div>
 
 

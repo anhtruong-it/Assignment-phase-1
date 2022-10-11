@@ -72,6 +72,16 @@ const channelArray = [
     channelId: 4,
     channelName: "channel 04",
     groupID: 1,
+  },
+  {
+    channelId: 5,
+    channelName: "channel 05",
+    groupID: 1,
+  },
+  {
+    channelId: 6,
+    channelName: "channel 06",
+    groupID: 1,
   }
 ]
 
@@ -290,6 +300,7 @@ MongoClient.connect(url, {maxPoolSize: 10, useNewUrlParser: true, useUnifiedTopo
     require('./routes/api-getlist')(dbG, app);
 
     require('./routes/api-getGCU')(dbG, app);
+    require('./routes/api-getChannels')(dbG, app);
     require('./routes/api-createUser')(dbG, app);
     require('./routes/api-addChannel')(dbG, app, ObjectID);
     require('./routes/api-addGroup')(dbG, app, ObjectID);
@@ -303,6 +314,7 @@ MongoClient.connect(url, {maxPoolSize: 10, useNewUrlParser: true, useUnifiedTopo
     require('./routes/api-addUsertoGroupChannnel')(dbG, app, ObjectID);
     require('./routes/api-removeUser')(dbG, app, ObjectID);
     require('./routes/api-updateChannelUser')(dbG, app, ObjectID);
+
 
 
 

@@ -7,9 +7,11 @@ import { GCU } from '../database/G-C-U';
 import {newchannels} from '../database/channels';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+//import { nextTick } from 'q';
 
 import io from 'socket.io-client';
-const SERVER_URL = 'http://localhost:3000';
+const SERVER_URLS = 'http://localhost:3000/super';
+const SERVER_URLM = 'http://localhost:3000/users';
 
 @Injectable({
   providedIn: 'root'
@@ -21,27 +23,73 @@ export class CommunicateService {
   constructor(private http: HttpClient) { }
 
 
-  initSocket(){
-    this.socket = io(SERVER_URL);
-    return ()=>{this.socket.disconnect();}
+  initSocket(userRole){
+
+    if(userRole=='Super Admin'){
+      alert('roleS: ' + userRole);
+      this.socket = io(SERVER_URLS);
+    } else {
+      alert('role: ' + userRole);
+      this.socket = io(SERVER_URLM);
+    }
+
+    //return ()=>{this.socket.disconnect();}
   }
 
-  send(message: string){
+  joinroom(selroom):void{
+    this.socket.emit("joinRoom", selroom);
+  }
+
+  leaveroom(selroom):void{
+    this.socket.emit("leaveRoom", selroom);
+  }
+
+  joined(next){
+    this.socket.on('joined', res=>next(res));
+  }
+
+  createroom(newroom){
+    this.socket.emit('newroom', newroom);
+  }
+
+  reqnumusers(selroom){
+    this.socket.emit("numusers", selroom);
+  }
+
+  getnumusers(next){
+    this.socket.on('numusers', res=>next(res));
+  }
+
+  reqroomList(channelsList){
+    this.socket.emit('roomlist', channelsList);
+  }
+
+  getroomList(next){
+    this.socket.on('roomlist', res=>next(res));
+  }
+
+  notice(next){
+    this.socket.on('notice', res=>next(res));
+  }
+
+  sendMessage(message): void {
     this.socket.emit('message', message);
   }
 
-  getMessage(){
+  getMessage(next){
+    /*
     return Observable.create((observer)=>{
       this.socket.on('message', (message)=>{
         observer.next(message);
       });
     });
-    //this.socket.on('message', (message)=>next(message));
+    */
+    this.socket.on('message', (message)=>next(message));
   }
 
 
-  getlist() {
-    return this.http.get<any>('http://localhost:3000/api/getlist');
+  getChannels() {
+    return this.http.get<any>('http://localhost:3000/api/getChannels');
   }
 
   getGCU() {

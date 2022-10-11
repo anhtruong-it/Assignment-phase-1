@@ -10,6 +10,10 @@ module.exports = function(dbG, app, ObjectID) {
 
     //var objectid = new ObjectID(groupId);
     //console.log("groupId: ", objectid);
+    const c = dbG.collection('channels');
+    c.deleteOne({channelId: Number(channelId)}, (err, data0)=>{
+
+    })
     const collection = dbG.collection("GCUs");
     collection.find({groupId: groupId}).toArray((err, data) => {
       if (err) throw err;

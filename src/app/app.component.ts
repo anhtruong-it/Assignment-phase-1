@@ -8,11 +8,12 @@ import { Router } from '@angular/router'
 export class AppComponent {
   title = 'Assignment1';
   constructor(private router: Router) {}
-  /*logOut(){
+  logOut(){
     sessionStorage.clear();
     this.router.navigateByUrl('/login');
 
   }
+  /*
   checkValid(){
     if (sessionStorage.getItem('valid') == 'no' || sessionStorage.getItem('valid') ==null){
       this.router.navigateByUrl('/login');
