@@ -77,13 +77,6 @@ export class CommunicateService {
   }
 
   getMessage(next){
-    /*
-    return Observable.create((observer)=>{
-      this.socket.on('message', (message)=>{
-        observer.next(message);
-      });
-    });
-    */
     this.socket.on('message', (message)=>next(message));
   }
 
@@ -156,6 +149,11 @@ export class CommunicateService {
 
   getListUser(userId){
     return this.http.post<any>('http://localhost:3000/api/getlist', {'userId': userId});
+  }
+
+  getChannelforUser(userId){
+    return this.http.post<any>('http://localhost:3000/api/getChannelforUser', {'userId': userId});
+
   }
 
 }

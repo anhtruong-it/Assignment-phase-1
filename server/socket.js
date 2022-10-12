@@ -240,9 +240,7 @@ module.exports = {
 
 // chat on users
   chatM.on('connection', (socket) => {
-  //  var rooms=[];
-  //  var socketRoom =[];
-  //  var socketRoomnum=[];
+
     console.log('user connection on port ' + PORT + ' : ' + socket.id);
 
     socket.on('message', (message)=>{
@@ -271,7 +269,7 @@ module.exports = {
 
     socket.on('roomlist', (m)=>{
       rooms = m;
-      console.log('m:, ', rooms);
+      console.log('m: ', rooms);
       chatM.emit('roomlist', JSON.stringify(rooms));
     });
 

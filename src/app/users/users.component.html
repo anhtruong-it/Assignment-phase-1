@@ -1,5 +1,8 @@
 <p>users works!</p>
-<div class="container">
+<button (click)="userJoin(userId)" class="btn btn-primary" >Open channel list</button>
+<br>
+<br>
+<div *ngIf="isChannelList" class="container">
   <form>
     <div class="form-group" *ngIf="isinRoom">
       <label for for="messagecontent">New message</label>
@@ -15,17 +18,13 @@
 
     </div>
 
-<div *ngIf="open">
-    <select [(ngModel)]="roomslist" name="roomlist">
-      <option [value]="null">Select Room</option>
-      <option *ngFor="let room of rooms">
+
+    <select [(ngModel)]="channel" name="channel">
+      <option [value]="null">Select Channel</option>
+      <option *ngFor="let room of newChannel">
         {{room}}
       </option>
     </select><br><br>
-    <label for="newroom">New Room</label>
-    <input type="text" [(ngModel)]="newroom" name="newroom" id="newroom" class="form-control"/>
-    <button (click)="createroom()" class="btn btn-primary" >Create New Room</button>
-  </div>
   </form>
   <h3>Notices</h3>
   {{roomnotice}}<br>
