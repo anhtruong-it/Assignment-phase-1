@@ -26,10 +26,10 @@ export class CommunicateService {
   initSocket(userRole){
 
     if(userRole=='Super Admin'){
-      alert('roleS: ' + userRole);
+      //alert('roleS: ' + userRole);
       this.socket = io(SERVER_URLS);
     } else {
-      alert('role: ' + userRole);
+      //alert('role: ' + userRole);
       this.socket = io(SERVER_URLM);
     }
 
@@ -118,6 +118,10 @@ export class CommunicateService {
     return this.http.post<any>('http://localhost:3000/api/deleteGroup', {'groupId': groupId});
   }
 
+  getChannelDel(){
+    return this.http.get<any>('http://localhost:3000/api/getChannelDel');
+  }
+
   deleteChannel(groupId, channelId){
     return this.http.post<any>('http://localhost:3000/api/deleteChannel', {'groupId': groupId, "channelId": channelId});
   }
@@ -148,6 +152,10 @@ export class CommunicateService {
 
   updateChannelUser(userId, groupId, channelId) {
     return this.http.post<any>('http://localhost:3000/api/updateChannelUser', {'userId': userId, 'groupId': groupId, 'channelId': channelId});
+  }
+
+  getListUser(userId){
+    return this.http.post<any>('http://localhost:3000/api/getlist', {'userId': userId});
   }
 
 }

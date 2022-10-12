@@ -7,10 +7,16 @@
 
 <div *ngIf="isGroupOpen">
   <button type="button" class="btn btn-primary btn-block mb-4" (click)="closeGCU()">Close</button>
-  <button type="button" class="btn btn-primary btn-block mb-4" (click)="openFormG()">Add New Group</button>
-  <div *ngIf="isGroupForm" class="form-popup" id="myForm">
+  <button type="button" class="btn btn-primary btn-block mb-4" (click)="openGroupAdd()">Add New Group</button>
+  <button type="button" class="btn btn-primary btn-block mb-4" (click)="openGroupDel()">Delete Group</button>
+  <button type="button" class="btn btn-primary btn-block mb-4" (click)="openChannelAdd()">Add Channel</button>
+  <button type="button" class="btn btn-primary btn-block mb-4" (click)="openChannelDel()">Delete Channel</button>
+  <button type="button" class="btn btn-primary btn-block mb-4" (click)="openUserAdd()">Add User</button>
+  <button type="button" class="btn btn-primary btn-block mb-4" (click)="openUserRemove()">Remove User</button>
+
+  <div *ngIf="isGroupAdd" class="form-popup" id="myForm">
     <form action="/action_page.php" class="form-container">
-      <h1>Add new group</h1>
+      <h1>Add new channel</h1>
 
         <label for="groupId">group Id</label>
         <input type="number" class="form-control" id="channelId" [(ngModel)]="groupId" name="groupId">
@@ -19,7 +25,101 @@
         <input type="text" class="form-control" id="channelName" [(ngModel)]="groupName" name="groupName">
 
       <button type="button" class="btn btn-primary btn-block mb-4" (click)="addGroup(groupId, groupName)">Add Group</button>
-      <button type="button" class="btn btn-primary btn-block mb-4" (click)="closeFormG()">Close</button>
+      <button type="button" class="btn cancel" (click)="closeGroupAdd()">Close</button>
+    </form>
+  </div>
+
+  <div *ngIf="isChannelAdd" class="form-popup" id="myForm">
+    <form class="form-container">
+      <h1>Add new channel</h1>
+      <div>
+        <label for="channelId">Group</label>
+        <select [(ngModel)]="groupID" name="groupID">
+          <option [value]="null">Select Channel</option>
+          <option *ngFor="let groups of gcu" [value]="groups.groupId">
+            {{groups.groupName}}
+          </option>
+        </select>
+      </div>
+        <label for="channelId">Channel Id</label>
+        <input type="number" class="form-control" id="channelId" [(ngModel)]="channelId" name="channelId">
+
+        <label for="channelName"><b>Name</b></label>
+        <input type="text" class="form-control" id="channelName" [(ngModel)]="channelName" name="channelName">
+
+      <button type="button" class="btn btn-primary btn-block mb-4" (click)="addChannel(groupID, channelId, channelName)">Add Channel</button>
+      <button type="button" class="btn btn-primary btn-block mb-4" (click)="closeChannelAdd()">Close</button>
+    </form>
+  </div>
+
+  <div *ngIf="isUserAdd" class="form-popup" id="myForm">
+    <form class="form-container">
+      <h1>Add new User to chat</h1>
+      <div>
+        <label for="channelId">Group and Channel</label>
+        <select [(ngModel)]="groupAndChannel" name="groupAndChannel">
+          <option [value]="null">Select Channel</option>
+          <option  *ngFor="let gc of GC"[value]="gc">
+            {{gc[2]}} - ({{gc[3]}})
+          </option>
+        </select>
+      </div>
+      <div>
+        <label for="productid">User name</label>
+        <select [(ngModel)]="userIds" name="userIds">
+          <option [value]="null">Select User</option>
+          <option  *ngFor="let userName of userss"[value]="userName.userId">
+            {{userName.userName}} ({{userName.userRole}})
+          </option>
+        </select>
+      </div>
+        <button type="button" class="btn btn-primary btn-block mb-4" (click)="addUserGC(userIds, groupAndChannel)">Add user </button>
+        <button type="button" class="btn btn-primary btn-block mb-4" (click)="closeUserAdd()">Close </button>
+    </form>
+  </div>
+
+  <div *ngIf="isChannelDel">
+    <form>
+      <div class="form-group">
+        <button (click)="deleteChannel()" class="btn btn-primary">Delete</button>
+        <button (click)="closeChannelDel()" class="btn btn-primary">Close</button>
+      </div>
+      <select [(ngModel)]="channelList" name="channelList">
+        <option [value]="null">Select Channel</option>
+        <option *ngFor="let channels of chanelDel" [value]="[channels.groupID, channels.channelId]">
+          {{channels.channelName}} (ID: {{channels.channelId}})
+        </option>
+      </select>
+    </form>
+  </div>
+
+  <div *ngIf="isUserRemove">
+    <form>
+      <div class="form-group">
+        <button type="button" class="btn btn-primary btn-block mb-4" (click)="removeUser(g_c_u)">Delete</button>
+        <button type="button" class="btn btn-primary btn-block mb-4" (click)="closeUserRemove()">Close</button>
+      </div>
+      <select [(ngModel)]="g_c_u" name="g_c_u">
+        <option [value]="null">Select User</option>
+        <option *ngFor="let user of GCUS" [value]="[user[0], user[1], user[2]]">
+          Username: {{user[3]}} (channel: {{user[4]}})
+        </option>
+      </select>
+    </form>
+  </div>
+
+  <div *ngIf="isGroupDel">
+    <form>
+      <select [(ngModel)]="group_ids" name="group_ids">
+        <option [value]="null">Select Group</option>
+        <option *ngFor="let groups of gcu" [value]="groups.groupId">
+          {{groups.groupId}}
+        </option>
+      </select>
+      <div class="form-group">
+        <button type="button" class="btn btn-primary btn-block mb-4" (click)="deleteGroup(group_ids)">Delete</button>
+        <button type="button" class="btn btn-primary btn-block mb-4" (click)="closeGroupDel()">Close</button>
+      </div>
     </form>
   </div>
 
@@ -31,64 +131,81 @@
     </tr>
     <tr style="padding-top:20px;" *ngFor="let group of gcu" >
       <td>
-        {{group.groupId}}, {{group.groupName}}
-      <div> <span class="btn btn=primary" (click)="deleteGroup(group.groupId)"><i class="fa fa-trash"> Delete Group</i></span>
-      </div>
-        <div>
-          <button type="button" class="btn btn-primary btn-block mb-4" (click)="openForm()">Add new channel</button>
-          <div *ngIf="isChannelOpen" class="form-popup" id="myForm">
-            <form action="/action_page.php" class="form-container">
-              <h1>Add new channel</h1>
-
-                <label for="channelId">Channel Id</label>
-                <input type="number" class="form-control" id="channelId" [(ngModel)]="channelId" name="channelId">
-
-                <label for="channelName"><b>Name</b></label>
-                <input type="text" class="form-control" id="channelName" [(ngModel)]="channelName" name="channelName">
-
-              <button type="button" class="btn btn-primary btn-block mb-4" (click)="addChannel(group.groupId, channelId, channelName)">Add Channel</button>
-              <button type="button" class="btn btn-primary btn-block mb-4" (click)="closeForm()">Close</button>
-
-            </form>
-          </div>
-        </div>
+        {{group.groupName}}
       </td>
       <td>
         <ul style="padding-top:20px;" *ngFor="let channels of group.channel">
-          {{channels.channelId}}, {{channels.channelName}}
-          <div>
-            <button type="button" class="btn btn-primary btn-block mb-4" (click)="deleteChannel(group.groupId, channels.channelId)">Delete Channel</button>
-          </div>
+         {{channels.channelName}}
         </ul>
       </td>
         <ul style="padding-top:20px;" *ngFor="let user of group.channel">
           <td style="padding-top:20px;" *ngFor="let users of user.user">
-            {{users.userId}}, {{users.userName}}
-            <button type="button" class="btn btn-primary btn-block mb-4" (click)="removeUser(users.userId, group.groupId, user.channelId)">remove user </button>
+            {{users.userName}}
           </td>
-          <div>
-            <button type="button" class="btn btn-primary btn-block mb-4" (click)="openFormUGC()">Add user to G/C</button>
-            <div *ngIf="isUserForm" class="form-popup" id="myForm">
-              <form action="/action_page.php" class="form-container">
-                <h1>Add new User to chat</h1>
-                <div>
-                  <label for="productid">User name</label>
-                  <select name="userRole" id="userRole" class="form-control" [(ngModel)]="userIds" multiple>
-                      <option style="padding-top:20px;" *ngFor="let userName of userss"
-                      value={{userName.userId}}>{{userName.userName}}, {{userName.userRole}}
-                  </select>
-                </div>
-                  <button type="button" class="btn btn-primary btn-block mb-4" (click)="addUserGC(userIds, group.groupId, user.channelId)">add user </button>
-                  <button type="button" class="btn cancel" (click)="closeFormUGC()">Close</button>
-              </form>
-            </div>
-          </div>
         </ul>
     </tr>
   </table>
 </div>
 
+<div *ngIf="isUserDel">
+  <form>
+    <select [(ngModel)]="userIdDel" name="userIdDel">
+      <option [value]="null">Select User</option>
+      <option *ngFor="let users of user" [value]="users.userId">
+        username: {{users.userName}}
+      </option>
+    </select>
+    <div class="form-group">
+      <button type="button" class="btn btn-primary btn-block mb-4" (click)="deleteUser(userIdDel)">Delete</button>
+      <button type="button" class="btn btn-primary btn-block mb-4" (click)="closeUserDel()">Close</button>
+    </div>
+  </form>
+</div>
+
+<div *ngIf="isUserUpdate">
+  <form>
+    <select [(ngModel)]="userIdUpdate" name="userIdDel">
+      <option [value]="null">Select User</option>
+      <option *ngFor="let users of user" [value]="users.userId">
+        username: {{users.userName}}
+      </option>
+    </select>
+    <div class="form-group">
+      <button type="button" class="btn btn-primary btn-block mb-4" (click)="openUpdateForm(userIdUpdate)">Chose user</button>
+      <button type="button" class="btn btn-primary btn-block mb-4" (click)="closeUserUpdate()">Close</button>
+    </div>
+  </form>
+</div>
+
+<div *ngIf="isUpdateForm" class="form-popup" id="myForm">
+  <form  class="form-container">
+    <h1>Update user</h1>
+
+      <label for="user_Name"><b>User Name</b></label>
+      <input type="text" class="form-control" id="user_Name" [(ngModel)]="user_Name" name="user_Name" [placeholder]='getListUser.userName'>
+
+      <label for="user_Pwd"><b>User Pwd</b></label>
+      <input type="password" class="form-control" id="user_Pwd" [(ngModel)]="user_Pwd" name="user_Pwd" [placeholder]='getListUser.userPwd'>
+
+      <label for="user_Role"><b>user Role</b></label>
+        <select name="userRole" id="userRole" class="form-control" [(ngModel)]="user_Role" multiple >
+          <option value="Super Admin">Super Admin</option>
+          <option value="Group Admin">Admin</option>
+          <option value="Group Assis">Assistant</option>
+          <option value="member">Member</option>
+        </select>
+
+    <button type="button" class="btn btn-primary btn-block mb-4" (click)="updateUser(getListUser.userId, user_Name, user_Pwd, user_Role)">Update</button>
+    <button type="button" class="btn btn-primary btn-block mb-4" (click)="closeUpdateForm()">Close</button>
+
+  </form>
+</div>
+
+
+
 <div *ngIf="isUserOpen">
+  <button type="button" class="btn btn-primary btn-block mb-4" (click)="openUserUpdate()">Update user</button>
+  <button type="button" class="btn btn-primary btn-block mb-4" (click)="openUserDel()">Delete User</button>
   <button type="button" class="btn btn-primary btn-block mb-4" (click)="closeUser()">Close</button>
   <table class="table">
     <tr>
@@ -101,33 +218,6 @@
 
     <tr style="padding-top:20px;" *ngFor="let users of user" >
       <td>{{users.userId}}
-        <button type="button"  (click)="deleteUser(users.userId)">Delete user</button>
-        <div>
-        <button type="button" class="btn btn-primary btn-block mb-4" (click)="openFormU()">Update user</button>
-          <div *ngIf="isUserUpdate" class="form-popup" id="myForm">
-            <form action="/action_page.php" class="form-container">
-              <h1>Update user</h1>
-
-                <label for="user_Name"><b>user Name</b></label>
-                <input type="text" class="form-control" id="user_Name" [(ngModel)]="user_Name" name="user_Name">
-
-                <label for="user_Pwd"><b>user Pwd</b></label>
-                <input type="text" class="form-control" id="user_Pwd" [(ngModel)]="user_Pwd" name="user_Pwd">
-
-                <label for="user_Role"><b>user Role</b></label>
-                  <select name="userRole" id="userRole" class="form-control" [(ngModel)]="user_Role" multiple>
-                    <option value="Super Admin">Super Admin</option>
-                    <option value="Group Admin">Admin</option>
-                    <option value="Group Assis">Assistant</option>
-                    <option value="member">Member</option>
-                  </select>
-
-              <button type="button" class="btn btn-primary btn-block mb-4" (click)="updateUser(users._id, users.userId, user_Name, user_Pwd, user_Role)">Update</button>
-              <button type="button" class="btn btn-primary btn-block mb-4" (click)="closeFormU()">Close</button>
-
-            </form>
-          </div>
-        </div>
       </td>
       <td>{{users.userName}}</td>
       <td>{{users.userPwd}}</td>

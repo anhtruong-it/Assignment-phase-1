@@ -13,6 +13,7 @@ const httpOptions = {
 
 // for Angular http methods
 import { Router } from '@angular/router';
+import { splitNsName } from '@angular/compiler';
 
 const BACKEND_URL = 'http://localhost:3000';
 
@@ -35,19 +36,52 @@ export class SuperComponent implements OnInit {
   user: user[] = [];
 
   // add new group
-  isGroupForm = false;
+  isGroupAdd = false;
 
   //add new channel
-  isChannelOpen = false;
+  groupID: number;
   channelId: number;
   channelName: string;
   newChannel : channel;
+  isChannelAdd = false;
+
+  // delete channel
+  isChannelDel = false;
+  chanelDel =[];
+  channelList:string = '';
+  newChannelList:any;
+
+  // delete group
+  isGroupDel = false;
+  group_ids: number;
+  newGroup_id: number;
 
   // add user to group/channel
   isUserForm = false;
+  isUserAdd = false;
+  groupAndChannel=[];
+  newGroupAndChannel: any;
+  GC:any;
+
+  // remove user from channel
+  isUserRemove = false;
+  g_c_u=[];
+  newg_c_u: any;
+  GCUS: any;
+
+  // delete user
+  isUserDel = false;
+  userIdDel: number;
+  newUserDel: Number;
+
 
   // update user
   isUserUpdate = false;
+  isUpdateForm = false;
+  userIdUpdate: number;
+  newUserIdUpdate: number;
+  getListUser: any;
+
 
   // create new user
   isUserCreate = false;
@@ -113,13 +147,16 @@ export class SuperComponent implements OnInit {
   // get list of groups/channels/users
   GCU() {
     this.proddata.getGCU().subscribe((data)=> {
-      this.gcu = data.ok;
+      this.gcu = data.ok[0];
+      this.GC = data.ok[1];
+      this.GCUS = data.ok[2];
       this.proddata.getChannels().subscribe((data1)=>{
         this.channels = data1.ok;
         this.proddata.getUser().subscribe((data)=> {
           this.user = data.ok;
           this.userss = data.ok;
           this.isGroupOpen = true;
+          this.isChannelDel = false;
         })
       })
     })
@@ -145,12 +182,12 @@ export class SuperComponent implements OnInit {
     }
 
     // add new group
-    openFormG() {
-      this.isGroupForm = true;
+    openGroupAdd(){
+      this.isGroupAdd = true;
     }
 
-    closeFormG() {
-      this.isGroupForm = false;
+    closeGroupAdd(){
+      this.isGroupAdd = false;
     }
 
     addGroup(group_id, groupName) {
@@ -158,6 +195,7 @@ export class SuperComponent implements OnInit {
       this.proddata.addGroup(this.newGroup).subscribe((data)=>{
           if (data.ok == 'ok') {
             this.GCU();
+            this.closeGroupAdd();
           } else {
             alert("duplicate group");
           }
@@ -165,47 +203,70 @@ export class SuperComponent implements OnInit {
     }
 
     // delete group
-    deleteGroup(groupId){
+    openGroupDel(){
+      this.isGroupDel = true;
+    }
+
+    closeGroupDel(){
+      this.isGroupDel = false;
+    }
+
+    deleteGroup(group_ids){
       if (confirm("Are you sure you want to delete this group")) {
-        this.proddata.deleteGroup(groupId).subscribe((data)=> {
+        this.proddata.deleteGroup(Number(group_ids)).subscribe((data)=> {
           if(data) {
             this.GCU();
+            this.closeGroupDel();
           }
         });
       }
     }
 
     // add new channel
-    openForm() {
-      this.isChannelOpen = true;
+    openChannelAdd(){
+      this.isChannelAdd = true;
     }
 
-    closeForm() {
-      this.isChannelOpen = false;
+    closeChannelAdd(){
+      this.isChannelAdd = false;
     }
 
     addChannel(groupd_id, channelId, channelName) {
       this.channelId = channelId;
       this.channelName = channelName;
-      this.newChannel = new channel(this.channelId, this.channelName,groupd_id);
+      this.groupID = Number(groupd_id);
+      this.newChannel = new channel(this.channelId, this.channelName, this.groupID);
       this.proddata.addChannel(this.newChannel).subscribe((data)=> {
         if (data.ok=="ok") {
-          alert("added");
+          alert("channel added");
           this.GCU();
           this.userJoin();
+          this.closeChannelAdd();
           this.channelId=null;
           this.channelName="";
         } else {
-          alert("false");
+          alert("duplicate channel");
           this.GCU();
         }
       });
     }
 
     // delete channel
-    deleteChannel(groupId, channelId){
+    openChannelDel(){
+      this.proddata.getChannelDel().subscribe((data)=>{
+        this.chanelDel = data.ok;
+        this.isChannelDel = true;
+      })
+    }
+
+    closeChannelDel(){
+      this.isChannelDel = false;
+    }
+
+    deleteChannel(){
+     this.newChannelList = this.channelList.split(",");
       if (confirm("Are you sure you want to delete this channel")) {
-        this.proddata.deleteChannel(groupId, channelId).subscribe((data)=> {
+        this.proddata.deleteChannel(this.newChannelList[0], this.newChannelList[1]).subscribe((data)=> {
           if(data.ok == "ok") {
             alert("channel removed");
             this.GCU();
@@ -216,11 +277,20 @@ export class SuperComponent implements OnInit {
     }
 
     // remove user
-    removeUser(userId, groupId, channelId) {
-      this.proddata.removeUser(userId, groupId, channelId).subscribe((data)=>{
+    openUserRemove(){
+      this.isUserRemove = true;
+    }
+
+    closeUserRemove(){
+      this.isUserRemove = false;
+    }
+
+    removeUser(g_c_u) {
+      this.newg_c_u = g_c_u.split(",");
+      this.proddata.removeUser(Number(this.newg_c_u[0]), Number(this.newg_c_u[1]), Number(this.newg_c_u[2])).subscribe((data)=>{
         if (data.ok=='ok'){
           alert("user removed");
-          this.proddata.updateChannelUser(userId, groupId, channelId).subscribe((data1)=>{
+          this.proddata.updateChannelUser(Number(this.newg_c_u[0]), Number(this.newg_c_u[1]), Number(this.newg_c_u[2])).subscribe((data1)=>{
             if (data1.ok == "ok") {
               this.getUser();
             }
@@ -231,16 +301,17 @@ export class SuperComponent implements OnInit {
     }
 
     // add user to group/channel
-    openFormUGC() {
-      this.isUserForm = true;
+    openUserAdd(){
+      this.isUserAdd = true;
     }
 
-    closeFormUGC() {
-      this.isUserForm = false;
+    closeUserAdd(){
+      this.isUserAdd = false;
     }
 
-    addUserGC(userId, groupId, channelId) {
-      this.proddata.addUserGC(userId.toString(), groupId, channelId).subscribe((data)=>{
+    addUserGC(userId, goupAndChannel) {
+      this.newGroupAndChannel = goupAndChannel.split(",");
+      this.proddata.addUserGC(Number(userId.toString()), Number(this.newGroupAndChannel[0]), Number(this.newGroupAndChannel[1])).subscribe((data)=>{
         if (data.ok == "ok"){
           alert("user added");
           this.GCU();
@@ -252,8 +323,17 @@ export class SuperComponent implements OnInit {
     }
 
     // delete user
+    openUserDel(){
+      this.isUserDel = true;
+    }
+
+    closeUserDel(){
+      this.isUserDel = false;
+    }
+
     deleteUser(userId) {
-      this.proddata.deleteUser(userId).subscribe((data)=>{
+      this.newUserDel = Number(userId);
+      this.proddata.deleteUser(this.newUserDel).subscribe((data)=>{
         if (data.ok != false){
           if (data.ok[1].length > 0){
             for(let g of data.ok[1]){
@@ -273,19 +353,34 @@ export class SuperComponent implements OnInit {
     }
 
     // update user
-    openFormU() {
+    openUserUpdate(){
       this.isUserUpdate = true;
     }
 
-    closeFormU() {
+    closeUserUpdate(){
       this.isUserUpdate = false;
     }
 
-    updateUser(user_Id, userId, userName, userPwd, userRole) {
+    openUpdateForm(userId){
+      this.newUserIdUpdate = Number(userId);
+      this.proddata.getListUser(this.newUserIdUpdate).subscribe((data)=>{
+        this.getListUser = data.ok;
+        this.isUpdateForm = true;
+      })
+
+    }
+
+    closeUpdateForm(){
+      this.isUpdateForm = false;
+    }
+
+    updateUser(userId, userName, userPwd, userRole) {
       this.newUser = new user(userId, userName, userPwd, userRole.toString(), [{id:null, channelId: null}]);
       this.proddata.updateUser(this.newUser).subscribe((data)=>{
         if (data.ok=="ok"){
           this.getUser();
+          this.closeUpdateForm();
+          this.closeUserUpdate();
         }
         else {
           alert("duplicate user");

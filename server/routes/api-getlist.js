@@ -2,26 +2,13 @@ const { async } = require("rxjs");
 
 module.exports = function(dbG, app) {
 
-  app.get('/api/getlist',  function(req, res) {
-
-
-    const collectionG = dbG.collection('groups');
-    collectionG.find({}).toArray((err, dataG)=> {
-
-    //  console.log("groups: ", dataG);
-     // datas.push(dataG);
-      const collectionC = dbG.collection('channels');
-        collectionC.find({}).toArray((err, dataC)=> {
-        //  console.log("channels: ", dataC);
-        //  datas.push(dataC);
-          const collectionU = dbG.collection('users');
-        collectionU.find({}).toArray((err, dataU)=> {
-         // console.log("users: ", dataU);
-        // datas.push(dataU);
-        //console.log('datas: ', [dataG,dataC,dataU]);
-        res.send({'ok':[dataG,dataC,dataU]});
-        });
-        });
+  app.post('/api/getlist',  function(req, res) {
+    console.log('user:ok');
+    const userId = req.body.userId;
+    const collection = dbG.collection('users');
+    collection.find({userId: Number(userId)}).toArray((err, data)=> {
+      console.log('user: ', data);
+      res.send({"ok": data[0]})
 
     });
 
