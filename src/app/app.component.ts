@@ -7,18 +7,22 @@ import { Router } from '@angular/router'
 })
 export class AppComponent {
   title = 'Assignment1';
+  userName='';
+
   constructor(private router: Router) {}
   logOut(){
     sessionStorage.clear();
     this.router.navigateByUrl('/login');
 
   }
-  /*
-  checkValid(){
-    if (sessionStorage.getItem('valid') == 'no' || sessionStorage.getItem('valid') ==null){
+
+  loginPage(){
+    this.userName = sessionStorage.getItem('userName');
+    if (this.userName == null){
       this.router.navigateByUrl('/login');
     } else {
-      alert("You need to log out before log in!");
+      alert("you need to logout")
     }
-  }*/
+  }
+
 }

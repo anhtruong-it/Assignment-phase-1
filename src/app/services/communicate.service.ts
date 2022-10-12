@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 import io from 'socket.io-client';
 const SERVER_URLS = 'http://localhost:3000/super';
 const SERVER_URLM = 'http://localhost:3000/users';
+const SERVER_URLA = 'http://localhost:3000/admin-user';
 
 @Injectable({
   providedIn: 'root'
@@ -26,14 +27,13 @@ export class CommunicateService {
   initSocket(userRole){
 
     if(userRole=='Super Admin'){
-      //alert('roleS: ' + userRole);
       this.socket = io(SERVER_URLS);
+    } else if (userRole=='Group Admin') {
+      this.socket = io(SERVER_URLA);
     } else {
-      //alert('role: ' + userRole);
       this.socket = io(SERVER_URLM);
     }
 
-    //return ()=>{this.socket.disconnect();}
   }
 
   joinroom(selroom):void{

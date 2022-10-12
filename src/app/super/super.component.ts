@@ -115,12 +115,6 @@ export class SuperComponent implements OnInit {
   user_Ids: number;
 
 
-
-
-
-
-  //newChannels: newchannels;
- // testChannels: channel[] = [];
   groupId: number;
   groupName: string;
   newGroup: GCU;
