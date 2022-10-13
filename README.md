@@ -86,7 +86,7 @@ Return value: Array
 
 Technical Explanation: this route is used to retrieve all available channels, it accesses the collection in mongodb, finds the collection named 'channels', retrieves all channels into an array.
 
-###List Group/Channel/User Route
+### List Group/Channel/User Route
 
 Description: this route is used to retrieve all group/channel/users
 
