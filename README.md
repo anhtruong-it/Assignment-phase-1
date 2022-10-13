@@ -12,19 +12,56 @@ https://github.com/anhtruong-it/Assignment-phase-1.git
 During development, I commit when a body of work was completed. It is important that the application can be run without error regardless of which commit is pulled. 
 Branches were created when working on complex new features, such as when I was implementing the user permissions dialog, where I need to commit. I find it easier and cleaner than rolling back to a previous commit. As I was the only developer working on this project, I decided to merge and rebase in order to keep the commit history on the main branch clear to understand.
 
-## Data Structures 
-There are three primary data structures used in this program. They are users, groups, channels. Users is an array that consists of a user object. A user has an id, username, email address and a role. Groups is an array that consist of a group object. A group has a group name. Each group contains Channel. Channels is an array that consist of a channel object. A channel has a channel name and User. Users is an array that consist of a username object.
 
-{group: number, channel: [
-	{nameChannel: string, user: [
-		username,…]
-]}
+## Data Structures 
+There are three main data structures used in this program. They are users, groups, channels. The user has an id, a username, a role, and an array containing the group id and channel id they're in. The channel has an id, the channel name and the group id that contains the channel. The group consists of the id, the group name, an object named channel, the channel object has the channel id, the channel name is the user object. The user object has an id, a user name, and a role. All three collections (users, channels, groups) bind group, user, and channel ids together to support accessing different program functions.
+
+Group: GCU {
+  _id = UntypedFormBuilder;
+  groupId: number;
+  groupName: string;
+  channel: [
+    {
+      channelId: number,
+      channelName: string,
+      user:[
+        {
+          userId: number,
+          userName: string,
+          userRole: string,
+        },
+      ];
+    } ,
+  ];
+}
+
+Channel: channel {
+  _id = UntypedFormBuilder;
+  channelId: number;
+  channelName: string;
+  groupID: any;
+}
+
+User: user {
+  _id = UntypedFormBuilder;
+  userId: number;
+  userName: string;
+  userPwd: string;
+  userRole: string;
+  groupId:[
+    {
+      id: number;
+      channelId: number;
+    }
+  ];
+}
+
 
 ## REST API
 ### Login Route
 Description:	This route checks that user exists. If it does, it logs them in. Otherwise, it displays an   error message on the frontend
 
-Route: /login
+Route: /api/login
 
 Method:	POST
 
@@ -34,109 +71,178 @@ Return value: If authenticated: : {ok: role, user: {id: number, username: string
 
 Technical Explanation: 	This route receives a username and a password in the request body. The users.json file is read and, if a user matching username and password are found, then the route returns ok: role of user and the user as a response. If a user does not exist with the username, it returns ok: false as a response.
 
-### Upgrade User
-Description: this route updates a user role
 
-Route: /upgradeUsers
 
-Method: POST
+### List Channel Route
+Description: this route is used to access all available channels
 
-Parameters: In req.body:  { user: username: string, role: string}}
+Route: /api/getChannels
 
-Return Value: true
+Method: get
 
-Technical Explanation: This route receives a username and role in the request parameters and a user in the request body. It reads in the users.json file to the local variable users. It finds the index where username matches id in users and sets the value at that index to user. It writes users to the users.json file. It returns users as a response.
+Parameters: None
 
-### Delete User
-Description: This route deletes a user
+Return value: Array
 
-Route: /removeUser
+Technical Explanation: this route is used to retrieve all available channels, it accesses the collection in mongodb, finds the collection named 'channels', retrieves all channels into an array.
 
-Method: POST
+###List Group/Channel/User Route
 
-Parameters: usename: string
+Description: this route is used to retrieve all group/channel/users
 
-Return Value: true
+Route: /api/getGCU
 
-Technical Explanation: This route receives a username in the request parameters. It reads in the users.json file to the local variable users. It finds the index of the user where username matches id in users and uses it to splice the user from users.
+Method: get
 
-### Get Users
-Description: This route returns a list of users.
+Parameters: None
 
-Route: /getUsers
+Return value: Array
 
-Method: POST
+Technical Explanation: this route is used to retrieve all group/channel/users from collection 'GCUs' in mongodb to represent this information by a table in html
 
-Parameters: NONE
+###Create New User Route
+Description: this route is used to create a new use
 
-Return Value: users
+Route: api/createUser
 
-Technical Explanation: This route receives no parameter in the request body, users.json file is read then it returns users.
+Method: post
 
-### Get Group-Channel
-Description: This route returns a list of group and channel
+Parameters: new user(userId, username, userPwd, userRole)
 
-Route: /showGC
+Return value: Array
 
-Method: POST
+Technical Explanation: this route is used to create a new user, it takes the parameters from the user input then creates a new user in dababase 'users'
 
-Parameters: NONE
+### Create New Group Route
+Description: this route is used to create a new group
 
-Return Value: Groups
+Route: /api/addGroup
 
-Technical Explanation: This route receives no parameter in the request body, group.json file is read then it returns all the group and channel.
+Method: post
 
-### Create Group
-Description: This route creates a new group.
+Parameters: new GCU(groupId, groupName, channel:[channelId: null, channelName: null, user:[userId: null, username: null, userRole: null]])
 
-Route: /createGroup
+Return value: Array
 
-Method: POST
+Technical Explanation: This route is used to create a new group, it receives new parameters from the user including groupId and groupName, then creates a new group8 in the database, the child objects inside GCU will be defaulted to null.
 
-Parameters: NONE
+### Create Channel Route
+Description: this route is used to create a new channel in an existing group
 
-Return Value: {group: number}
+Route: /api/addchannel
 
-Technical Explanation: This route receives no parameter in the request body, group.json file is read, create a new Group Object and then rewrite new list of group to group.json file.
+Method: post
 
-### Create Channel
-Description: This route creates a new channel
+Parameters: new channel(chanenlId, channelName, groupId)
 
-Route: /createChannel
+Return value: array
 
-Method: POST
+Technical Explanation: This route is used to create a new channel in an existing group, it takes parameters channelID, channelName from user and groupId available in database to create a channel associated with that group.
 
-Parameters: {group: number}
+### Delete Group Route
+Description: this route is used to delete a group
 
-Return Value: {Group: number, channel: number[]}
+Route:  /api/deleteGroup
 
-Technical Explanation: This route receives group in the request body, group.json file is read, find the index of the group in JSON file that matches group. Create a channel within the group found. It then rewrites to the JSON file.
+Method: post
 
-### Delete Group
-Description: This route deletes a group
+Parameters: groupId: number
 
-Route: /delGroup
+Return value: array
 
-Method: POST
+Technical Explanation: this route is used to delete a group in the database by groupId
 
-Parameters: {group: number}
 
-Return Value: group
+### Get Deleted Channel Route
+Description: This route is used to create a list of channels you want to delete
 
-Technical Explanation: This route receives group in the request body, group.json file is read, find the index of the group in JSON file that matches group. Delete the group found, it then rewrites the group to the JSON file.
+Route: /api/getChannelDel
 
-### Delete Channel
-Description: This route deletes a channel
+Method: get
 
-Route: /delChannel
+Parameters: None
 
-Method: POST
+Return value: array
 
-Parameters: {group: numbe, channel: number}
+Technical Explanation: This route is used to create a list of channels you want to delete, the list will be displayed on the html page with the name channelName and the value is channelId
 
-Return Value: group
+### Delete Channel Route
+Description: this route is used to delete a channel
 
-Technical Explanation: This route receives group and channel in the request body, group.json file is read, find the index of the group and channel in JSON file that matches group. Delete the channel found, it then rewrites the group to the JSON file.
+Route: /api/deleteChannel
+
+Method: post
+
+Parameters: groupId: number, channelId: number
+
+Return value: array
+
+Technical Explanation: this route is used to delete a channel in the database using the channelId and groupId contained in that channel
+
+### Get User Route
+Description: this route is used to retrieve all users
+
+Route: /api/getUser
+
+Method: get
+
+Parameters: None
+
+Return value: array
+
+Technical Explanation:
+
+### Delete User Route
+Description: this route is used to delete a user
+
+Route: /api/deleteUser
+
+Method: post
+
+Parameters: userId: number
+
+Return value: array
+
+Technical Explanation: This route is used to delete a user from the database and make sure the user's information in the GCU object is also deleted
+
+### Update User Route
+Description: this route is used to update a user's information
+
+Route: /api/updateUser
+
+Method: post
+
+Parameters: new user(userId, username, userPwd, userRole, groupId[])
+
+Return value: array
+
+Technical Explanation: this route is used to update a user's information from the user, the information will be changed in the database but the groupId will not be changed in this case
+
+### Add User to Channel Route
+Description: this route is used to add a user to a channel
+
+Route: /api/addUserGC
+
+Method: post
+
+Parameters: userId: number, groupId: number, channelId: number
+
+### Return value: array 
+
+Technical Explanation: this route is used to add a user to a channel, the user databse will also be added a pair of groupId, channelId
+
+Remove User Route
+Description: this route is used to remove a user from a channel
+
+Route: /api/removeUser
+
+Method: post
+
+Parameters: userId: number, groupId: number, channelId: number
+
+Return value: array
+
+Technical Explanation: This route is used to remove a user from a channel, and the groupId and channelId pairs in the user database are also deleted accordingly.
 
 # Angular Architecture
 ## Components
