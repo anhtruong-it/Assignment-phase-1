@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,7 +13,7 @@ import { SuperComponent } from './super/super.component';
 import { AdminComponent } from './admin/admin.component';
 import { AssistantComponent } from './assistant/assistant.component';
 import { AdminUserComponent } from './admin-user/admin-user.component';
-
+import { CommunicateService } from './services/communicate.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,15 +23,17 @@ import { AdminUserComponent } from './admin-user/admin-user.component';
     SuperComponent,
     AdminComponent,
     AssistantComponent,
-    AdminUserComponent
+    AdminUserComponent,
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    CommonModule,
   ],
-  providers: [],
+  providers: [CommunicateService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
